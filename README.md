@@ -111,3 +111,88 @@ Error distribution
 Student interaction data
 
 These insights guide improvements to exercises and platform design.
+
+🔍 Use Cases
+✅ Use Case 1 — Intelligent Debug Assistance (Student)
+
+Students receive contextual hints when errors occur. Example:
+
+numbers = [1,2,3]
+print(numbers[5])
+
+System detects runtime error → suggests checking list length → student fixes issue.
+
+✅ Use Case 2 — Assignment Completion (Student)
+
+Flow:
+
+Login
+
+Select assignment
+
+Write code
+
+Receive real-time feedback
+
+Submit
+
+Backend validates & stores submission
+
+Example feedback: missing parenthesis detection for:
+
+print("Hello World"
+
+✅ Use Case 3 — Instructor Performance Monitoring
+
+Professors view aggregated insights such as:
+
+40% Syntax Errors
+
+35% Logic Errors
+
+25% Runtime Errors
+
+These insights help guide lecture adjustments.
+
+🗓️ Development Timeline
+Phase 1 — Foundation & Design (Weeks 1–4)
+
+UX research
+
+Figma mockups
+
+Tech stack finalized
+
+Phase 2 — Core Development
+
+IDE + authentication system
+
+Phase 3 — Intelligent Features
+
+Secure execution engine
+
+Smart feedback system
+
+Phase 4 — Analytics & Instructor Tools
+
+Analytics dashboard
+
+Exercise library integration
+
+Phase 5 — Launch
+
+CI/CD integration
+
+Monitoring setup
+
+Production deployment
+
+👥 Contributors
+
+Patrick Haye — Student
+
+Ashanti Benons — Student
+
+Daphne Gray — Student
+
+David Arnow — Professor
