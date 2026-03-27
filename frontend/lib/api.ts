@@ -1,0 +1,156 @@
+/**
+ * Typed API client — all requests route through Next.js /api/* proxy
+ * to avoid CORS issues in development.
+ */
+
+const BASE = "/api";
+
+// ── Token helpers ─────────────────────────────────────────────
+export function getToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("cl_token");
+}
+
+export function setToken(token: string): void {
+  localStorage.setItem("cl_token", token);
+}
+
+export function clearToken(): void {
+  localStorage.removeItem("cl_token");
+  localStorage.removeItem("cl_user");
+}
+
+export function getUser(): User | null {
+  if (typeof window === "undefined") return null;
+  const raw = localStorage.getItem("cl_user");
+  return raw ? (JSON.parse(raw) as User) : null;
+}
+
+export function setUser(user: User): void {
+  localStorage.setItem("cl_user", JSON.stringify(user));
+}
+
+// ── Fetch wrapper ─────────────────────────────────────────────
+async function apiFetch<T>(
+  path: string,
+  options: RequestInit = {},
+): Promise<T> {
+  const token = getToken();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(options.headers as Record<string, string>),
+  };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
+  const res = await fetch(`${BASE}${path}`, { ...options, headers });
+  if (!res.ok) {
+    const detail = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(detail?.detail ?? "Request failed");
+  }
+  return res.json() as Promise<T>;
+}
+
+// ── Types ─────────────────────────────────────────────────────
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
+export interface TokenResponse {
+  access_token: string;
+  token_type: string;
+  user: User;
+}
+
+export interface Course {
+  course_id: string;
+  number: string;
+  title: string;
+  section: string;
+  instructor: string;
+  language: string;
+  access_code: string;
+}
+
+export interface Semester {
+  term: string;
+  courses: Course[];
+}
+
+export interface CoursesResponse {
+  role: string;
+  total: number;
+  semesters: Semester[];
+}
+
+export interface ExerciseRef {
+  id: string;
+  label: string;
+  status: string;
+}
+
+export interface TopicNode {
+  id: string;
+  label: string;
+  exercises: ExerciseRef[];
+  children?: TopicNode[];
+}
+
+export interface LabStructure {
+  course_id: string;
+  title: string;
+  tree: TopicNode[];
+}
+
+export interface SampleRun {
+  input: string;
+  output: string;
+}
+
+export interface Exercise {
+  id: string;
+  title: string;
+  instructions: string;
+  sample_runs: SampleRun[];
+  starter_code: string;
+  course_id: string;
+  topic: string;
+}
+
+export interface SubmissionResult {
+  submission_id: string;
+  exercise_id: string;
+  status: string;
+  message: string;
+  compiler_output: string;
+  your_code: string;
+  score: number;
+}
+
+// ── API calls ─────────────────────────────────────────────────
+export const api = {
+  login: (email: string, password: string) =>
+    apiFetch<TokenResponse>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    }),
+
+  getCourses: () => apiFetch<CoursesResponse>("/courses"),
+
+  getLabStructure: (courseId: string) =>
+    apiFetch<LabStructure>(`/labs/${courseId}/structure`),
+
+  getExercise: (exerciseId: string) =>
+    apiFetch<Exercise>(`/exercises/${exerciseId}`),
+
+  submitCode: (exerciseId: string, code: string) =>
+    apiFetch<SubmissionResult>("/submissions", {
+      method: "POST",
+      body: JSON.stringify({ exercise_id: exerciseId, code }),
+    }),
+
+  getHistory: (exerciseId: string) =>
+    apiFetch<SubmissionResult[]>(`/submissions/history/${exerciseId}`),
+};
