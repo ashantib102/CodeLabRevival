@@ -38,7 +38,7 @@ USERS = [
     },
     {
         "id": 5,
-        "name": "Daphne Grayy",
+        "name": "Daphne Gray",
         "email": "daphne@codelab.edu",
         "hashed_password": pwd_context.hash("password123"),
         "role": "instructor",
