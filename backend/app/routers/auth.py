@@ -58,13 +58,19 @@ def register(body: RegisterRequest):
             detail="An account with that email already exists.",
         )
     new_id = max(u["id"] for u in USERS) + 1
-    new_user = {
+    new_user: dict = {
         "id": new_id,
         "name": body.name.strip(),
         "email": body.email.strip().lower(),
         "hashed_password": pwd_context.hash(body.password),
         "role": body.role,
     }
+    # Students are enrolled in the main course by default so they can access the lab
+    if body.role == "student":
+        new_user["enrolled_courses"] = ["59094"]
+    # Instructors start with no section key; an admin can assign one later
+    if body.role == "instructor":
+        new_user["instructor_key"] = ""
     USERS.append(new_user)
     token = _create_token(new_id, body.role)
     return TokenResponse(

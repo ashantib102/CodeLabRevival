@@ -5,7 +5,7 @@ import LabHeader from '@/components/LabHeader';
 import NotifBanner from '@/components/NotifBanner';
 import TocPanel from '@/components/TocPanel';
 import { api, getUser, getToken } from '@/lib/api';
-import type { Exercise, LabStructure, SampleRun } from '@/lib/api';
+import type { Exercise, LabStructure, SampleRun, SubmissionHistory } from '@/lib/api';
 
 type WorkTab    = 'work' | 'solutions' | 'tracking';
 type SampleTab  = 'input' | 'output';
@@ -24,6 +24,13 @@ export default function ExercisePage() {
   const [sampleTab, setSampleTab]   = useState<SampleTab>('input');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError]           = useState('');
+  const [history, setHistory]       = useState<SubmissionHistory[]>([]);
+
+  function refreshHistory() {
+    api.getHistory(exerciseId)
+      .then(setHistory)
+      .catch(() => { /* history is optional */ });
+  }
 
   useEffect(() => {
     if (!getToken()) { router.replace('/login'); return; }
@@ -31,6 +38,7 @@ export default function ExercisePage() {
       .then(ex => {
         setExercise(ex);
         setCode(ex.starter_code);
+        refreshHistory();
         return api.getLabStructure(ex.course_id);
       })
       .then(setLab)
@@ -42,6 +50,7 @@ export default function ExercisePage() {
     setSubmitting(true);
     try {
       const result = await api.submitCode(exercise.id, code);
+      refreshHistory();
       router.push(`/results/${result.submission_id}?data=${encodeURIComponent(JSON.stringify(result))}`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Submission failed');
@@ -191,8 +200,21 @@ export default function ExercisePage() {
                   <label htmlFor="history-sel" style={{ fontSize: 12, color: '#555' }}>
                     Submission History:
                   </label>
-                  <select id="history-sel" className="dropdown">
-                    <option>Select a submission</option>
+                  <select
+                    id="history-sel"
+                    className="dropdown"
+                    value=""
+                    onChange={e => {
+                      const entry = history.find(h => h.submission_id === e.target.value);
+                      if (entry) setCode(entry.code);
+                    }}
+                  >
+                    <option value="">Select a submission</option>
+                    {history.map((h, i) => (
+                      <option key={h.submission_id} value={h.submission_id}>
+                        #{history.length - i} — {new Date(h.submitted_at).toLocaleString()} — {h.grade} ({h.status})
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -217,16 +239,38 @@ export default function ExercisePage() {
           {workTab === 'tracking' && (
             <div className="content-area">
               <h3 style={{ marginBottom: 12 }}>Exercise Tracking</h3>
-              <table className="tracking-table">
-                <thead>
-                  <tr><th>#</th><th>Date</th><th>Result</th><th>Score</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td colSpan={4} style={{ color: '#888', textAlign: 'center' }}>
-                    No submissions yet.
-                  </td></tr>
-                </tbody>
-              </table>
+              {history.length === 0 ? (
+                <p style={{ color: '#888' }}>No submissions yet.</p>
+              ) : (
+                <table className="tracking-table">
+                  <thead>
+                    <tr><th>#</th><th>Date</th><th>Result</th><th>Similarity</th><th>Grade</th></tr>
+                  </thead>
+                  <tbody>
+                    {[...history].reverse().map((h, i) => {
+                      const gradeColor =
+                        h.grade.startsWith('A') ? '#16a34a' :
+                        h.grade.startsWith('B') ? '#2563eb' :
+                        h.grade.startsWith('C') ? '#d97706' :
+                        h.grade.startsWith('D') ? '#ea580c' : '#dc2626';
+                      const statusLabel =
+                        h.status === 'correct'        ? '✔ Correct' :
+                        h.status === 'compiler_error' ? '✘ Compiler Error' :
+                        h.status === 'runtime_error'  ? '✘ Runtime Error' :
+                        '✘ Wrong Output';
+                      return (
+                        <tr key={h.submission_id}>
+                          <td>{history.length - i}</td>
+                          <td style={{ fontSize: 11 }}>{new Date(h.submitted_at).toLocaleString()}</td>
+                          <td style={{ color: h.status === 'correct' ? '#267a14' : '#c0392b' }}>{statusLabel}</td>
+                          <td>{h.score}%</td>
+                          <td><span style={{ fontWeight: 700, color: gradeColor }}>{h.grade || '—'}</span></td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           )}
         </div>

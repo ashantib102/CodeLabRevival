@@ -7,6 +7,8 @@ from passlib.context import CryptContext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # ── Users ─────────────────────────────────────────────────────
+# instructor_key  : matches the `instructor` field in SEMESTERS courses
+# enrolled_courses: list of course_ids a student is enrolled in
 USERS = [
     {
         "id": 1,
@@ -14,6 +16,7 @@ USERS = [
         "email": "patrick@codelab.edu",
         "hashed_password": pwd_context.hash("password123"),
         "role": "instructor",
+        "instructor_key": "Haye",
     },
     {
         "id": 2,
@@ -21,6 +24,7 @@ USERS = [
         "email": "arnow@codelab.edu",
         "hashed_password": pwd_context.hash("password123"),
         "role": "instructor",
+        "instructor_key": "Arnow",
     },
     {
         "id": 3,
@@ -28,6 +32,7 @@ USERS = [
         "email": "student@codelab.edu",
         "hashed_password": pwd_context.hash("student123"),
         "role": "student",
+        "enrolled_courses": ["59094"],
     },
     {
         "id": 4,
@@ -35,6 +40,7 @@ USERS = [
         "email": "testuser@codelab.edu",
         "hashed_password": pwd_context.hash("test123"),
         "role": "student",
+        "enrolled_courses": ["59097"],
     },
     {
         "id": 5,
@@ -42,6 +48,7 @@ USERS = [
         "email": "daphne@codelab.edu",
         "hashed_password": pwd_context.hash("password123"),
         "role": "instructor",
+        "instructor_key": "DG",
     },
     {
         "id": 6,
@@ -49,6 +56,7 @@ USERS = [
         "email": "ashanti@codelab.edu",
         "hashed_password": pwd_context.hash("password123"),
         "role": "instructor",
+        "instructor_key": "Benons",
     }
 ]
 
@@ -106,7 +114,9 @@ SEMESTERS = [
     }
 ]
 
-# ── Lab Structure (course 59094) ──────────────────────────────
+# ── Lab Structures (one per course) ─────────────────────────
+# Course 59094 is the MAIN / aggregate course — all exercises live here.
+# Each other course shows only that instructor's exercises.
 LAB_STRUCTURES = {
     "59094": {
         "course_id": "59094",
@@ -234,7 +244,148 @@ LAB_STRUCTURES = {
                 "exercises": [{"id": "00004", "label": "Hello World", "status": "blank"}],
             },
         ],
-    }
+    },
+    # ── Arnow — Section B (59095) ─────────────────────────────
+    "59095": {
+        "course_id": "59095",
+        "title": "JAVA CODELAB — Section B",
+        "tree": [
+            {
+                "id": "new-exercises",
+                "label": "NEW EXERCISES",
+                "children": [],
+                "exercises": [],
+            },
+            {
+                "id": "imperative-programming",
+                "label": "IMPERATIVE PROGRAMMING",
+                "children": [],
+                "exercises": [
+                    {"id": "00008", "label": "FizzBuzz", "status": "blank"},
+                    {"id": "00009", "label": "Array Sum and Average", "status": "blank"},
+                    {"id": "00010", "label": "String Reversal", "status": "blank"},
+                ],
+            },
+            {
+                "id": "oop",
+                "label": "OBJECT ORIENTED PROGRAMMING",
+                "children": [
+                    {
+                        "id": "references-objects",
+                        "label": "REFERENCES and OBJECTS",
+                        "children": [
+                            {
+                                "id": "reference-variable-declaration",
+                                "label": "reference variable declaration",
+                                "children": [],
+                                "exercises": [
+                                    {"id": "20516", "label": "reference variable declaration", "status": "blank"},
+                                ],
+                            },
+                        ],
+                        "exercises": [],
+                    }
+                ],
+                "exercises": [],
+            },
+        ],
+    },
+    # ── Benons — Section AB (59096) ───────────────────────────
+    "59096": {
+        "course_id": "59096",
+        "title": "JAVA CODELAB — Section AB",
+        "tree": [
+            {
+                "id": "new-exercises",
+                "label": "NEW EXERCISES",
+                "children": [],
+                "exercises": [],
+            },
+            {
+                "id": "oop",
+                "label": "OBJECT ORIENTED PROGRAMMING",
+                "children": [
+                    {
+                        "id": "classes-and-objects",
+                        "label": "Classes and Objects",
+                        "children": [],
+                        "exercises": [
+                            {"id": "00011", "label": "BankAccount Class", "status": "blank"},
+                        ],
+                    },
+                ],
+                "exercises": [],
+            },
+            {
+                "id": "advanced-topics",
+                "label": "ADVANCED TOPICS",
+                "children": [],
+                "exercises": [
+                    {"id": "00012", "label": "Fibonacci Sequence (Recursive)", "status": "blank"},
+                ],
+            },
+        ],
+    },
+    # ── Haye — Section PH (59097) ─────────────────────────────
+    "59097": {
+        "course_id": "59097",
+        "title": "PH-JAVA CODELAB",
+        "tree": [
+            {
+                "id": "new-exercises",
+                "label": "NEW EXERCISES",
+                "children": [],
+                "exercises": [],
+            },
+            {
+                "id": "codelab-warmup",
+                "label": "CODELAB WARMUP",
+                "children": [],
+                "exercises": [
+                    {"id": "00006", "label": "Print Your Name", "status": "blank"},
+                    {"id": "00007", "label": "Simple Calculator", "status": "blank"},
+                ],
+            },
+            {
+                "id": "haye-exercises",
+                "label": "Patrick Haye Exercises",
+                "children": [
+                    {
+                        "id": "uncategorized",
+                        "label": "Uncategorized",
+                        "children": [],
+                        "exercises": [
+                            {"id": "00001", "label": "Run-Length Encoding", "status": "blank"},
+                            {"id": "00004", "label": "Hello World", "status": "blank"},
+                        ],
+                    }
+                ],
+                "exercises": [],
+            },
+        ],
+    },
+    # ── Daphne Gray — Section DG (59098) ──────────────────────
+    "59098": {
+        "course_id": "59098",
+        "title": "DG-JAVA CODELAB",
+        "tree": [
+            {
+                "id": "new-exercises",
+                "label": "NEW EXERCISES",
+                "children": [],
+                "exercises": [],
+            },
+            {
+                "id": "advanced-topics",
+                "label": "ADVANCED TOPICS",
+                "children": [],
+                "exercises": [
+                    {"id": "00013", "label": "Stack Implementation", "status": "blank"},
+                    {"id": "00014", "label": "Generic Pair Class", "status": "blank"},
+                ],
+            },
+        ],
+    },
 }
 
 # ── Exercises ─────────────────────────────────────────────────
@@ -253,6 +404,25 @@ EXERCISES = {
             {"input": "xyz", "output": "x1y1z1"},
         ],
         "starter_code": "public class RunLength {\n    public static void main(String[] args) {\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RunLength {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String s = sc.nextLine();\n"
+            "        StringBuilder sb = new StringBuilder();\n"
+            "        int i = 0;\n"
+            "        while (i < s.length()) {\n"
+            "            char c = s.charAt(i);\n"
+            "            int count = 1;\n"
+            "            while (i + count < s.length() && s.charAt(i + count) == c) count++;\n"
+            "            sb.append(c).append(count);\n"
+            "            i += count;\n"
+            "        }\n"
+            "        System.out.println(sb.toString());\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "Patrick Haye Exercises",
     },
@@ -266,6 +436,14 @@ EXERCISES = {
         ),
         "sample_runs": [],
         "starter_code": "import java.io.File;\n\npublic class Declare {\n    public static void main(String[] args) {\n        // declare myFile here\n    }\n}\n",
+        "solution_code": (
+            "import java.io.File;\n\n"
+            "public class Declare {\n"
+            "    public static void main(String[] args) {\n"
+            "        File myFile;\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "reference variable declaration",
     },
@@ -281,6 +459,13 @@ EXERCISES = {
             {"input": "", "output": "Hello, World!"},
         ],
         "starter_code": "public class HelloWorld {\n    public static void main(String[] args) {\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "public class HelloWorld {\n"
+            "    public static void main(String[] args) {\n"
+            "        System.out.println(\"Hello, World!\");\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "Patrick Haye Exercises",
     },
@@ -300,6 +485,17 @@ EXERCISES = {
             {"input": "John\nSmith", "output": "Hello, John Smith!"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class PrintName {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class PrintName {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String first = sc.nextLine();\n"
+            "        String last = sc.nextLine();\n"
+            "        System.out.println(\"Hello, \" + first + \" \" + last + \"!\");\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "CODELAB WARMUP",
     },
@@ -320,6 +516,25 @@ EXERCISES = {
             {"input": "7\n*\n6", "output": "42"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class Calculator {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class Calculator {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int a = sc.nextInt();\n"
+            "        String op = sc.next();\n"
+            "        int b = sc.nextInt();\n"
+            "        int result = switch (op) {\n"
+            "            case \"+\" -> a + b;\n"
+            "            case \"-\" -> a - b;\n"
+            "            case \"*\" -> a * b;\n"
+            "            case \"/\" -> a / b;\n"
+            "            default  -> 0;\n"
+            "        };\n"
+            "        System.out.println(result);\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "CODELAB WARMUP",
     },
@@ -343,6 +558,21 @@ EXERCISES = {
             {"input": "15", "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class FizzBuzz {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class FizzBuzz {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int n = sc.nextInt();\n"
+            "        for (int i = 1; i <= n; i++) {\n"
+            "            if (i % 15 == 0)     System.out.println(\"FizzBuzz\");\n"
+            "            else if (i % 3 == 0) System.out.println(\"Fizz\");\n"
+            "            else if (i % 5 == 0) System.out.println(\"Buzz\");\n"
+            "            else                 System.out.println(i);\n"
+            "        }\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "IMPERATIVE PROGRAMMING",
     },
@@ -362,6 +592,23 @@ EXERCISES = {
             {"input": "3\n1\n2\n3", "output": "Sum: 6\nAverage: 2.00"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class ArrayStats {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class ArrayStats {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int n = sc.nextInt();\n"
+            "        int[] nums = new int[n];\n"
+            "        int sum = 0;\n"
+            "        for (int i = 0; i < n; i++) {\n"
+            "            nums[i] = sc.nextInt();\n"
+            "            sum += nums[i];\n"
+            "        }\n"
+            "        System.out.println(\"Sum: \" + sum);\n"
+            "        System.out.printf(\"Average: %.2f%n\", (double) sum / n);\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "IMPERATIVE PROGRAMMING",
     },
@@ -381,6 +628,20 @@ EXERCISES = {
             {"input": "racecar", "output": "racecar"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class ReverseString {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String line = sc.nextLine();\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class ReverseString {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String line = sc.nextLine();\n"
+            "        String reversed = \"\";\n"
+            "        for (int i = line.length() - 1; i >= 0; i--) {\n"
+            "            reversed += line.charAt(i);\n"
+            "        }\n"
+            "        System.out.println(reversed);\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "IMPERATIVE PROGRAMMING",
     },
@@ -409,6 +670,44 @@ EXERCISES = {
             {"input": "deposit 100\nwithdraw 500\nbalance", "output": "Deposited: 100.0\nInsufficient funds\nBalance: 100.0"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class BankAccount {\n    private double balance;\n\n    public BankAccount(double initialBalance) {\n        // your code here\n    }\n\n    public void deposit(double amount) {\n        // your code here\n    }\n\n    public boolean withdraw(double amount) {\n        // your code here\n        return false;\n    }\n\n    public double getBalance() {\n        // your code here\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        BankAccount account = new BankAccount(0);\n        Scanner sc = new Scanner(System.in);\n        // read and process 3 commands\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class BankAccount {\n"
+            "    private double balance;\n\n"
+            "    public BankAccount(double initialBalance) {\n"
+            "        this.balance = initialBalance;\n"
+            "    }\n\n"
+            "    public void deposit(double amount) {\n"
+            "        balance += amount;\n"
+            "    }\n\n"
+            "    public boolean withdraw(double amount) {\n"
+            "        if (amount > balance) return false;\n"
+            "        balance -= amount;\n"
+            "        return true;\n"
+            "    }\n\n"
+            "    public double getBalance() {\n"
+            "        return balance;\n"
+            "    }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        BankAccount account = new BankAccount(0);\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        for (int i = 0; i < 3; i++) {\n"
+            "            String cmd = sc.next();\n"
+            "            if (cmd.equals(\"deposit\")) {\n"
+            "                double amt = sc.nextDouble();\n"
+            "                account.deposit(amt);\n"
+            "                System.out.println(\"Deposited: \" + amt);\n"
+            "            } else if (cmd.equals(\"withdraw\")) {\n"
+            "                double amt = sc.nextDouble();\n"
+            "                if (account.withdraw(amt)) System.out.println(\"Withdrew: \" + amt);\n"
+            "                else System.out.println(\"Insufficient funds\");\n"
+            "            } else {\n"
+            "                System.out.println(\"Balance: \" + account.getBalance());\n"
+            "            }\n"
+            "        }\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "OBJECT ORIENTED PROGRAMMING",
     },
@@ -435,6 +734,28 @@ EXERCISES = {
             {"input": "0", "output": "Recursive: 0\nMemoized: 0"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class Fibonacci {\n\n    public static long fib(int n) {\n        // recursive — your code here\n        return 0;\n    }\n\n    public static long fibMemo(int n, long[] memo) {\n        // memoized — your code here\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        long[] memo = new long[n + 1];\n        System.out.println(\"Recursive: \" + fib(n));\n        System.out.println(\"Memoized: \" + fibMemo(n, memo));\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class Fibonacci {\n\n"
+            "    public static long fib(int n) {\n"
+            "        if (n <= 1) return n;\n"
+            "        return fib(n - 1) + fib(n - 2);\n"
+            "    }\n\n"
+            "    public static long fibMemo(int n, long[] memo) {\n"
+            "        if (n <= 1) return n;\n"
+            "        if (memo[n] != 0) return memo[n];\n"
+            "        memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);\n"
+            "        return memo[n];\n"
+            "    }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int n = sc.nextInt();\n"
+            "        long[] memo = new long[n + 1];\n"
+            "        System.out.println(\"Recursive: \" + fib(n));\n"
+            "        System.out.println(\"Memoized: \" + fibMemo(n, memo));\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "ADVANCED TOPICS",
     },
@@ -462,6 +783,42 @@ EXERCISES = {
             {"input": "push 5\npush 10\npeek\npop\npop\npop", "output": "10\n10\n5\nStack underflow"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class MyStack {\n    private int[] data = new int[100];\n    private int top = -1;\n\n    public void push(int val) {\n        // your code here\n    }\n\n    public int pop() {\n        // your code here\n        return -1;\n    }\n\n    public int peek() {\n        // your code here\n        return -1;\n    }\n\n    public boolean isEmpty() {\n        return top == -1;\n    }\n\n    public static void main(String[] args) {\n        MyStack stack = new MyStack();\n        Scanner sc = new Scanner(System.in);\n        // read and process commands\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class MyStack {\n"
+            "    private int[] data = new int[100];\n"
+            "    private int top = -1;\n\n"
+            "    public void push(int val) {\n"
+            "        if (top == data.length - 1) { System.out.println(\"Stack overflow\"); return; }\n"
+            "        data[++top] = val;\n"
+            "    }\n\n"
+            "    public int pop() {\n"
+            "        if (isEmpty()) { System.out.println(\"Stack underflow\"); return -1; }\n"
+            "        return data[top--];\n"
+            "    }\n\n"
+            "    public int peek() {\n"
+            "        if (isEmpty()) { System.out.println(\"Stack is empty\"); return -1; }\n"
+            "        return data[top];\n"
+            "    }\n\n"
+            "    public boolean isEmpty() { return top == -1; }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        MyStack stack = new MyStack();\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        while (sc.hasNextLine()) {\n"
+            "            String line = sc.nextLine().trim();\n"
+            "            if (line.startsWith(\"push\")) {\n"
+            "                stack.push(Integer.parseInt(line.split(\" \")[1]));\n"
+            "            } else if (line.equals(\"pop\")) {\n"
+            "                int v = stack.pop();\n"
+            "                if (v != -1) System.out.println(v);\n"
+            "            } else if (line.equals(\"peek\")) {\n"
+            "                int v = stack.peek();\n"
+            "                if (v != -1) System.out.println(v);\n"
+            "            }\n"
+            "        }\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "ADVANCED TOPICS",
     },
@@ -488,6 +845,34 @@ EXERCISES = {
             {"input": "hello\n42", "output": "(hello, 42)\n(42, hello)"},
         ],
         "starter_code": "import java.util.Scanner;\n\npublic class Pair<A, B> {\n\n    // fields here\n\n    public Pair(A first, B second) {\n        // your code here\n    }\n\n    public A getFirst() { return null; }\n    public B getSecond() { return null; }\n\n    @Override\n    public String toString() {\n        // your code here\n        return \"\";\n    }\n\n    public static <A, B> Pair<B, A> swap(Pair<A, B> p) {\n        // your code here\n        return null;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class Pair<A, B> {\n"
+            "    private A first;\n"
+            "    private B second;\n\n"
+            "    public Pair(A first, B second) {\n"
+            "        this.first = first;\n"
+            "        this.second = second;\n"
+            "    }\n\n"
+            "    public A getFirst() { return first; }\n"
+            "    public B getSecond() { return second; }\n\n"
+            "    @Override\n"
+            "    public String toString() {\n"
+            "        return \"(\" + first + \", \" + second + \")\";\n"
+            "    }\n\n"
+            "    public static <A, B> Pair<B, A> swap(Pair<A, B> p) {\n"
+            "        return new Pair<>(p.getSecond(), p.getFirst());\n"
+            "    }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String word = sc.nextLine();\n"
+            "        int num = Integer.parseInt(sc.nextLine());\n"
+            "        Pair<String, Integer> p = new Pair<>(word, num);\n"
+            "        System.out.println(p);\n"
+            "        System.out.println(swap(p));\n"
+            "    }\n"
+            "}\n"
+        ),
         "course_id": "59094",
         "topic": "ADVANCED TOPICS",
     },
@@ -502,6 +887,34 @@ def next_submission_id() -> int:
     global _submission_counter
     _submission_counter += 1
     return _submission_counter
+
+
+# ── Exercise ID counter ───────────────────────────────────────
+_exercise_counter = 14  # last used ID is 00014
+
+
+def next_exercise_id() -> str:
+    global _exercise_counter
+    _exercise_counter += 1
+    return str(_exercise_counter).zfill(5)
+
+
+def add_exercise_to_course(course_id: str, exercise_id: str, label: str) -> None:
+    """Append a new exercise ref to the NEW EXERCISES node of a course tree."""
+    lab = LAB_STRUCTURES.get(course_id)
+    if not lab:
+        return
+    for node in lab["tree"]:
+        if node["id"] == "new-exercises":
+            node["exercises"].append({"id": exercise_id, "label": label, "status": "blank"})
+            return
+    # Fallback: prepend a new-exercises node
+    lab["tree"].insert(0, {
+        "id": "new-exercises",
+        "label": "NEW EXERCISES",
+        "children": [],
+        "exercises": [{"id": exercise_id, "label": label, "status": "blank"}],
+    })
 
 
 def get_user_by_email(email: str) -> dict | None:

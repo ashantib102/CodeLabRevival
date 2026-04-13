@@ -115,18 +115,48 @@ export interface Exercise {
   instructions: string;
   sample_runs: SampleRun[];
   starter_code: string;
+  solution_code: string;
   course_id: string;
   topic: string;
+}
+
+export interface DiffLine {
+  type: 'equal' | 'insert' | 'delete' | 'replace_old' | 'replace_new';
+  line_no_left: number | null;
+  line_no_right: number | null;
+  content: string;
 }
 
 export interface SubmissionResult {
   submission_id: string;
   exercise_id: string;
+  course_id: string;     // used to load the lab TOC on the results page
   status: string;
   message: string;
   compiler_output: string;
   your_code: string;
+  solution_code: string;
+  diff: DiffLine[];
+  score: number;  // 0-100 similarity-based
+  grade: string;  // A+, A, A-, B+, … F
+}
+
+export interface SubmissionHistory {
+  submission_id: string;
+  exercise_id: string;
+  status: string;
   score: number;
+  grade: string;
+  submitted_at: string;  // ISO-8601
+  code: string;
+}
+
+export interface CreateExerciseRequest {
+  title: string;
+  instructions: string;
+  sample_runs: SampleRun[];
+  starter_code: string;
+  topic: string;
 }
 
 // ── API calls ─────────────────────────────────────────────────
@@ -158,5 +188,12 @@ export const api = {
     }),
 
   getHistory: (exerciseId: string) =>
-    apiFetch<SubmissionResult[]>(`/submissions/history/${exerciseId}`),
+    apiFetch<SubmissionHistory[]>(`/submissions/history/${exerciseId}`),
+
+  /** Instructor only — creates a new exercise and adds it to the TOC */
+  createExercise: (data: CreateExerciseRequest) =>
+    apiFetch<Exercise>("/exercises", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
 };

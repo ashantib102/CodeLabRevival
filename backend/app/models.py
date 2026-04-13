@@ -85,8 +85,17 @@ class Exercise(BaseModel):
     instructions: str
     sample_runs: list[SampleRun] = []
     starter_code: str = ""
+    solution_code: str = ""
     course_id: str = ""
     topic: str = ""
+
+
+class CreateExerciseRequest(BaseModel):
+    title: str
+    instructions: str
+    sample_runs: list[SampleRun] = []
+    starter_code: str = ""
+    topic: str = "Uncategorized"
 
 
 # ── Submission ────────────────────────────────────────────────
@@ -95,11 +104,32 @@ class SubmitRequest(BaseModel):
     code: str
 
 
+class DiffLine(BaseModel):
+    type: str   # "equal" | "insert" | "delete" | "replace_old" | "replace_new"
+    line_no_left: Optional[int] = None   # solution line number
+    line_no_right: Optional[int] = None  # submission line number
+    content: str
+
+
 class SubmissionResult(BaseModel):
     submission_id: str
     exercise_id: str
+    course_id: str = ""   # populated from the exercise's course_id
     status: str   # correct | compiler_error | runtime_error | wrong_output
     message: str
     compiler_output: str
     your_code: str
-    score: int  # 0–100
+    solution_code: str = ""
+    diff: list[DiffLine] = []
+    score: int       # 0–100 similarity-based
+    grade: str = ""  # A+, A, A-, B+, … F
+
+
+class SubmissionHistory(BaseModel):
+    submission_id: str
+    exercise_id: str
+    status: str
+    score: int
+    grade: str
+    submitted_at: str
+    code: str

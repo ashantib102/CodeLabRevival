@@ -5,7 +5,7 @@ import LabHeader from '@/components/LabHeader';
 import NotifBanner from '@/components/NotifBanner';
 import TocPanel from '@/components/TocPanel';
 import { api, getUser, getToken } from '@/lib/api';
-import type { SubmissionResult, LabStructure } from '@/lib/api';
+import type { SubmissionResult, LabStructure, DiffLine } from '@/lib/api';
 
 type ResTab = 'work' | 'solutions' | 'results' | 'tracking';
 
@@ -46,7 +46,8 @@ function ResultsInner() {
 
   useEffect(() => {
     if (!result) return;
-    api.getLabStructure(result.exercise_id.slice(0, 5) || 'default')
+    if (!result.course_id) return;
+    api.getLabStructure(result.course_id)
       .then(setLab)
       .catch(() => { /* TOC optional */ });
   }, [result]);
@@ -65,6 +66,14 @@ function ResultsInner() {
 
   const statusColor =
     result.status === 'correct' ? '#267a14' : '#c0392b';
+
+  const gradeColor = (g: string) => {
+    if (g.startsWith('A')) return '#16a34a';  // green
+    if (g.startsWith('B')) return '#2563eb';  // blue
+    if (g.startsWith('C')) return '#d97706';  // amber
+    if (g.startsWith('D')) return '#ea580c';  // orange
+    return '#dc2626';                          // F = red
+  };
 
   return (
     <div className="lab-wrap">
@@ -102,7 +111,7 @@ function ResultsInner() {
           <div className="content-area">
             {tab === 'results' && (
               <>
-                {/* Status summary */}
+                {/* Status + Grade summary */}
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 12,
                   marginBottom: 16, padding: '10px 14px',
@@ -121,11 +130,38 @@ function ResultsInner() {
                       {result.message}
                     </div>
                   </div>
-                  <div style={{ marginLeft: 'auto' }}>
-                    <span className={`badge ${isCorrect ? 'badge-correct' : 'badge-wrong'}`}
-                      style={{ fontSize: 14, padding: '3px 10px' }}>
-                      Score: {result.score}%
-                    </span>
+                  <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
+                    {/* Letter grade badge */}
+                    {result.grade && (
+                      <div style={{
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                        background: gradeColor(result.grade),
+                        color: '#fff',
+                        borderRadius: 6,
+                        padding: '4px 14px',
+                        minWidth: 52,
+                      }}>
+                        <span style={{ fontSize: 22, fontWeight: 800, lineHeight: 1.1 }}>
+                          {result.grade}
+                        </span>
+                        <span style={{ fontSize: 9, opacity: 0.85, textTransform: 'uppercase', letterSpacing: 1 }}>
+                          grade
+                        </span>
+                      </div>
+                    )}
+                    {/* Similarity score */}
+                    <div style={{
+                      display: 'flex', flexDirection: 'column', alignItems: 'center',
+                      background: '#f4f4f4', border: '1px solid #ddd',
+                      borderRadius: 6, padding: '4px 12px', minWidth: 52,
+                    }}>
+                      <span style={{ fontSize: 18, fontWeight: 700, color: '#333', lineHeight: 1.1 }}>
+                        {result.score}%
+                      </span>
+                      <span style={{ fontSize: 9, color: '#888', textTransform: 'uppercase', letterSpacing: 1 }}>
+                        similarity
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -192,7 +228,11 @@ function ResultsInner() {
             )}
 
             {tab === 'solutions' && (
-              <p style={{ color: '#555' }}>Solutions are not available.</p>
+              <SolutionDiff
+                diff={result.diff}
+                solutionCode={result.solution_code}
+                yourCode={result.your_code}
+              />
             )}
 
             {tab === 'tracking' && (
@@ -200,7 +240,7 @@ function ResultsInner() {
                 <h3 style={{ marginBottom: 12 }}>Submission History</h3>
                 <table className="tracking-table">
                   <thead>
-                    <tr><th>#</th><th>Submission ID</th><th>Result</th><th>Score</th></tr>
+                    <tr><th>#</th><th>Submission ID</th><th>Result</th><th>Similarity</th><th>Grade</th></tr>
                   </thead>
                   <tbody>
                     <tr>
@@ -208,6 +248,14 @@ function ResultsInner() {
                       <td style={{ fontFamily: 'monospace', fontSize: 11 }}>{result.submission_id}</td>
                       <td style={{ color: statusColor }}>{statusLabel}</td>
                       <td>{result.score}%</td>
+                      <td>
+                        <span style={{
+                          fontWeight: 700, fontSize: 14,
+                          color: gradeColor(result.grade),
+                        }}>
+                          {result.grade || '—'}
+                        </span>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -216,6 +264,145 @@ function ResultsInner() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ── Diff Viewer ───────────────────────────────────────────────────────────────
+
+const DIFF_BG: Record<string, string> = {
+  equal:       'transparent',
+  insert:      '#e6ffed',
+  delete:      '#ffeef0',
+  replace_old: '#ffeef0',
+  replace_new: '#e6ffed',
+};
+
+const DIFF_BORDER: Record<string, string> = {
+  equal:       'transparent',
+  insert:      '#34d058',
+  delete:      '#d73a49',
+  replace_old: '#d73a49',
+  replace_new: '#34d058',
+};
+
+const DIFF_PREFIX: Record<string, string> = {
+  equal:       ' ',
+  insert:      '+',
+  delete:      '-',
+  replace_old: '-',
+  replace_new: '+',
+};
+
+function SolutionDiff({
+  diff,
+  solutionCode,
+  yourCode,
+}: {
+  diff: DiffLine[];
+  solutionCode: string;
+  yourCode: string;
+}) {
+  if (!solutionCode) {
+    return (
+      <p style={{ color: '#777', fontStyle: 'italic', padding: 8 }}>
+        No reference solution available for this exercise.
+      </p>
+    );
+  }
+
+  const hasDiff = diff && diff.length > 0;
+
+  return (
+    <div>
+      {/* Legend */}
+      <div style={{
+        display: 'flex', gap: 16, marginBottom: 12, fontSize: 12, alignItems: 'center'
+      }}>
+        <strong style={{ fontSize: 13 }}>Solution vs Your Submission</strong>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ width: 12, height: 12, background: '#e6ffed', border: '1px solid #34d058', display: 'inline-block', borderRadius: 2 }} />
+          added by you / extra
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ width: 12, height: 12, background: '#ffeef0', border: '1px solid #d73a49', display: 'inline-block', borderRadius: 2 }} />
+          in solution / missing
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ width: 12, height: 12, background: 'transparent', border: '1px solid #ccc', display: 'inline-block', borderRadius: 2 }} />
+          unchanged
+        </span>
+      </div>
+
+      {hasDiff ? (
+        /* Unified diff view */
+        <div style={{
+          fontFamily: 'monospace',
+          fontSize: 12,
+          lineHeight: '1.6',
+          border: '1px solid #ddd',
+          borderRadius: 4,
+          overflow: 'auto',
+          maxHeight: 520,
+        }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '36px 36px 18px 1fr',
+            background: '#f6f8fa',
+            borderBottom: '1px solid #ddd',
+            padding: '4px 8px',
+            fontWeight: 700,
+            fontSize: 11,
+            color: '#555',
+          }}>
+            <span>Sol</span>
+            <span>You</span>
+            <span />
+            <span>Code</span>
+          </div>
+          {diff.map((line, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '36px 36px 18px 1fr',
+                background: DIFF_BG[line.type] ?? 'transparent',
+                borderLeft: `3px solid ${DIFF_BORDER[line.type] ?? 'transparent'}`,
+                padding: '1px 8px',
+              }}
+            >
+              <span style={{ color: '#999', userSelect: 'none' }}>
+                {line.line_no_left ?? ''}
+              </span>
+              <span style={{ color: '#999', userSelect: 'none' }}>
+                {line.line_no_right ?? ''}
+              </span>
+              <span style={{
+                color: line.type === 'equal' ? '#aaa' :
+                       line.type.startsWith('replace_') || line.type === 'delete' ? '#d73a49' : '#28a745',
+                fontWeight: 700,
+                userSelect: 'none',
+              }}>
+                {DIFF_PREFIX[line.type] ?? ' '}
+              </span>
+              <span style={{ whiteSpace: 'pre' }}>{line.content}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        /* Identical — just show code */
+        <div>
+          <div style={{ marginBottom: 6, color: '#267a14', fontWeight: 600 }}>
+            ✔ Your submission matches the solution exactly.
+          </div>
+          <pre style={{
+            background: '#f6f8fa', border: '1px solid #ddd', borderRadius: 4,
+            padding: '10px 14px', fontSize: 12, overflow: 'auto', maxHeight: 480,
+          }}>
+            {solutionCode}
+          </pre>
+        </div>
+      )}
     </div>
   );
 }
