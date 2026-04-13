@@ -122,18 +122,33 @@ LAB_STRUCTURES = {
                 "id": "codelab-warmup",
                 "label": "CODELAB WARMUP",
                 "children": [],
-                "exercises": [],
+                "exercises": [
+                    {"id": "00006", "label": "Print Your Name", "status": "blank"},
+                    {"id": "00007", "label": "Simple Calculator", "status": "blank"},
+                ],
             },
             {
                 "id": "imperative-programming",
                 "label": "IMPERATIVE PROGRAMMING",
                 "children": [],
-                "exercises": [],
+                "exercises": [
+                    {"id": "00008", "label": "FizzBuzz", "status": "blank"},
+                    {"id": "00009", "label": "Array Sum and Average", "status": "blank"},
+                    {"id": "00010", "label": "String Reversal", "status": "blank"},
+                ],
             },
             {
                 "id": "oop",
                 "label": "OBJECT ORIENTED PROGRAMMING",
                 "children": [
+                    {
+                        "id": "classes-and-objects",
+                        "label": "Classes and Objects",
+                        "children": [],
+                        "exercises": [
+                            {"id": "00011", "label": "BankAccount Class", "status": "blank"},
+                        ],
+                    },
                     {
                         "id": "references-objects",
                         "label": "REFERENCES and OBJECTS",
@@ -187,7 +202,11 @@ LAB_STRUCTURES = {
                 "id": "advanced-topics",
                 "label": "ADVANCED TOPICS",
                 "children": [],
-                "exercises": [],
+                "exercises": [
+                    {"id": "00012", "label": "Fibonacci Sequence (Recursive)", "status": "blank"},
+                    {"id": "00013", "label": "Stack Implementation", "status": "blank"},
+                    {"id": "00014", "label": "Generic Pair Class", "status": "blank"},
+                ],
             },
             {
                 "id": "graphics-gui",
@@ -264,6 +283,213 @@ EXERCISES = {
         "starter_code": "public class HelloWorld {\n    public static void main(String[] args) {\n        // your code here\n    }\n}\n",
         "course_id": "59094",
         "topic": "Patrick Haye Exercises",
+    },
+    # ── Codelab Warmup ────────────────────────────────────────
+    "00006": {
+        "id": "00006",
+        "title": "Print Your Name",
+        "instructions": (
+            "<strong>[Beginner]</strong> Write a Java program that asks the user for their "
+            "<strong>first name</strong> and <strong>last name</strong> on separate lines, "
+            "then prints: <code>Hello, FirstName LastName!</code><br><br>"
+            "Your class should be named <strong>PrintName</strong>.<br>"
+            "Use a <code>Scanner</code> to read input from standard input."
+        ),
+        "sample_runs": [
+            {"input": "Jane\nDoe", "output": "Hello, Jane Doe!"},
+            {"input": "John\nSmith", "output": "Hello, John Smith!"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class PrintName {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "CODELAB WARMUP",
+    },
+    "00007": {
+        "id": "00007",
+        "title": "Simple Calculator",
+        "instructions": (
+            "<strong>[Beginner]</strong> Write a Java program that reads two integers and an "
+            "operator (<code>+</code>, <code>-</code>, <code>*</code>, or <code>/</code>) "
+            "from standard input, then prints the result.<br><br>"
+            "Input format: first integer, operator, second integer — each on its own line.<br>"
+            "For division, perform <strong>integer division</strong>.<br>"
+            "Your class should be named <strong>Calculator</strong>."
+        ),
+        "sample_runs": [
+            {"input": "10\n+\n3", "output": "13"},
+            {"input": "10\n/\n3", "output": "3"},
+            {"input": "7\n*\n6", "output": "42"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class Calculator {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "CODELAB WARMUP",
+    },
+    # ── Imperative Programming ────────────────────────────────
+    "00008": {
+        "id": "00008",
+        "title": "FizzBuzz",
+        "instructions": (
+            "<strong>[Beginner–Intermediate]</strong> Write a Java program that reads a positive integer "
+            "<code>N</code> from standard input and prints every integer from <code>1</code> to "
+            "<code>N</code> (inclusive), one per line, with the following substitutions:<br><br>"
+            "<ul>"
+            "<li>If the number is divisible by <strong>3</strong>, print <code>Fizz</code></li>"
+            "<li>If the number is divisible by <strong>5</strong>, print <code>Buzz</code></li>"
+            "<li>If divisible by <strong>both</strong>, print <code>FizzBuzz</code></li>"
+            "<li>Otherwise, print the number</li>"
+            "</ul>"
+            "Your class should be named <strong>FizzBuzz</strong>."
+        ),
+        "sample_runs": [
+            {"input": "15", "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class FizzBuzz {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        // your code here\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "IMPERATIVE PROGRAMMING",
+    },
+    "00009": {
+        "id": "00009",
+        "title": "Array Sum and Average",
+        "instructions": (
+            "<strong>[Intermediate]</strong> Write a Java program that reads an integer "
+            "<code>N</code>, then reads <code>N</code> integers, and prints their "
+            "<strong>sum</strong> and <strong>average</strong> (as a <code>double</code>) "
+            "on separate lines.<br><br>"
+            "Format the average to <strong>2 decimal places</strong>.<br>"
+            "Your class should be named <strong>ArrayStats</strong>."
+        ),
+        "sample_runs": [
+            {"input": "4\n10\n20\n30\n40", "output": "Sum: 100\nAverage: 25.00"},
+            {"input": "3\n1\n2\n3", "output": "Sum: 6\nAverage: 2.00"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class ArrayStats {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        // your code here\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "IMPERATIVE PROGRAMMING",
+    },
+    "00010": {
+        "id": "00010",
+        "title": "String Reversal",
+        "instructions": (
+            "<strong>[Intermediate]</strong> Write a Java program that reads a line of text "
+            "from standard input and prints the <strong>reversed</strong> string.<br><br>"
+            "Do <strong>not</strong> use <code>StringBuilder.reverse()</code> — implement "
+            "the reversal manually using a loop.<br>"
+            "Your class should be named <strong>ReverseString</strong>."
+        ),
+        "sample_runs": [
+            {"input": "hello", "output": "olleh"},
+            {"input": "Java", "output": "avaJ"},
+            {"input": "racecar", "output": "racecar"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class ReverseString {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String line = sc.nextLine();\n        // your code here\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "IMPERATIVE PROGRAMMING",
+    },
+    # ── OOP ───────────────────────────────────────────────────
+    "00011": {
+        "id": "00011",
+        "title": "BankAccount Class",
+        "instructions": (
+            "<strong>[Intermediate–OOP]</strong> Create a class named <strong>BankAccount</strong> "
+            "with the following:<br><br>"
+            "<strong>Fields:</strong><br>"
+            "<ul><li><code>private double balance</code></li></ul>"
+            "<strong>Methods:</strong><br>"
+            "<ul>"
+            "<li><code>BankAccount(double initialBalance)</code> — constructor</li>"
+            "<li><code>void deposit(double amount)</code> — adds amount to balance</li>"
+            "<li><code>boolean withdraw(double amount)</code> — subtracts amount if sufficient funds, returns <code>true</code> on success, <code>false</code> otherwise</li>"
+            "<li><code>double getBalance()</code> — returns the current balance</li>"
+            "</ul>"
+            "In <code>main</code>, read three commands from standard input: "
+            "<code>deposit &lt;amount&gt;</code>, <code>withdraw &lt;amount&gt;</code>, "
+            "or <code>balance</code>. Print the result of each command."
+        ),
+        "sample_runs": [
+            {"input": "deposit 500\nwithdraw 200\nbalance", "output": "Deposited: 500.0\nWithdrew: 200.0\nBalance: 300.0"},
+            {"input": "deposit 100\nwithdraw 500\nbalance", "output": "Deposited: 100.0\nInsufficient funds\nBalance: 100.0"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class BankAccount {\n    private double balance;\n\n    public BankAccount(double initialBalance) {\n        // your code here\n    }\n\n    public void deposit(double amount) {\n        // your code here\n    }\n\n    public boolean withdraw(double amount) {\n        // your code here\n        return false;\n    }\n\n    public double getBalance() {\n        // your code here\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        BankAccount account = new BankAccount(0);\n        Scanner sc = new Scanner(System.in);\n        // read and process 3 commands\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "OBJECT ORIENTED PROGRAMMING",
+    },
+    # ── Advanced Topics ───────────────────────────────────────
+    "00012": {
+        "id": "00012",
+        "title": "Fibonacci Sequence (Recursive)",
+        "instructions": (
+            "<strong>[Advanced]</strong> Write a Java program that reads a non-negative integer "
+            "<code>N</code> from standard input and prints the <code>N</code>th Fibonacci number.<br><br>"
+            "<strong>Requirements:</strong><br>"
+            "<ul>"
+            "<li>Implement a <strong>recursive</strong> method <code>fib(int n)</code></li>"
+            "<li><code>fib(0) = 0</code>, <code>fib(1) = 1</code></li>"
+            "<li>Then, implement a second version using <strong>memoization</strong> "
+            "(store results in an array to avoid redundant computation)</li>"
+            "<li>Print both results on separate lines prefixed with <code>Recursive:</code> "
+            "and <code>Memoized:</code></li>"
+            "</ul>"
+            "Your class should be named <strong>Fibonacci</strong>."
+        ),
+        "sample_runs": [
+            {"input": "10", "output": "Recursive: 55\nMemoized: 55"},
+            {"input": "0", "output": "Recursive: 0\nMemoized: 0"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class Fibonacci {\n\n    public static long fib(int n) {\n        // recursive — your code here\n        return 0;\n    }\n\n    public static long fibMemo(int n, long[] memo) {\n        // memoized — your code here\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        long[] memo = new long[n + 1];\n        System.out.println(\"Recursive: \" + fib(n));\n        System.out.println(\"Memoized: \" + fibMemo(n, memo));\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "ADVANCED TOPICS",
+    },
+    "00013": {
+        "id": "00013",
+        "title": "Stack Implementation",
+        "instructions": (
+            "<strong>[Advanced]</strong> Implement a generic <strong>stack</strong> using an array "
+            "(without using <code>java.util.Stack</code> or <code>Deque</code>).<br><br>"
+            "Create a class named <strong>MyStack</strong> with a fixed capacity of 100 that supports:<br>"
+            "<ul>"
+            "<li><code>void push(int val)</code> — push value onto the stack; print "
+            "<code>Stack overflow</code> if full</li>"
+            "<li><code>int pop()</code> — remove and return top value; print "
+            "<code>Stack underflow</code> and return <code>-1</code> if empty</li>"
+            "<li><code>int peek()</code> — return top value without removing; print "
+            "<code>Stack is empty</code> and return <code>-1</code> if empty</li>"
+            "<li><code>boolean isEmpty()</code></li>"
+            "</ul>"
+            "In <code>main</code>, read commands until end of input: "
+            "<code>push &lt;val&gt;</code>, <code>pop</code>, or <code>peek</code>. "
+            "For <code>pop</code> and <code>peek</code>, print the returned value (if not an error)."
+        ),
+        "sample_runs": [
+            {"input": "push 5\npush 10\npeek\npop\npop\npop", "output": "10\n10\n5\nStack underflow"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class MyStack {\n    private int[] data = new int[100];\n    private int top = -1;\n\n    public void push(int val) {\n        // your code here\n    }\n\n    public int pop() {\n        // your code here\n        return -1;\n    }\n\n    public int peek() {\n        // your code here\n        return -1;\n    }\n\n    public boolean isEmpty() {\n        return top == -1;\n    }\n\n    public static void main(String[] args) {\n        MyStack stack = new MyStack();\n        Scanner sc = new Scanner(System.in);\n        // read and process commands\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "ADVANCED TOPICS",
+    },
+    "00014": {
+        "id": "00014",
+        "title": "Generic Pair Class",
+        "instructions": (
+            "<strong>[Advanced — Generics]</strong> Create a generic class named "
+            "<strong>Pair&lt;A, B&gt;</strong> that holds two values of potentially "
+            "different types.<br><br>"
+            "<strong>Requirements:</strong><br>"
+            "<ul>"
+            "<li>Constructor: <code>Pair(A first, B second)</code></li>"
+            "<li>Getters: <code>getFirst()</code> and <code>getSecond()</code></li>"
+            "<li>Override <code>toString()</code> to return "
+            "<code>(first, second)</code></li>"
+            "<li>Add a static method <code>swap(Pair&lt;A,B&gt; p)</code> that returns a new "
+            "<code>Pair&lt;B,A&gt;</code> with the values swapped</li>"
+            "</ul>"
+            "In <code>main</code>, create a <code>Pair&lt;String, Integer&gt;</code> from two "
+            "lines of input (a word and a number), print it, then print the swapped pair."
+        ),
+        "sample_runs": [
+            {"input": "hello\n42", "output": "(hello, 42)\n(42, hello)"},
+        ],
+        "starter_code": "import java.util.Scanner;\n\npublic class Pair<A, B> {\n\n    // fields here\n\n    public Pair(A first, B second) {\n        // your code here\n    }\n\n    public A getFirst() { return null; }\n    public B getSecond() { return null; }\n\n    @Override\n    public String toString() {\n        // your code here\n        return \"\";\n    }\n\n    public static <A, B> Pair<B, A> swap(Pair<A, B> p) {\n        // your code here\n        return null;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
+        "course_id": "59094",
+        "topic": "ADVANCED TOPICS",
     },
 }
 
