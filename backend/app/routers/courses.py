@@ -6,8 +6,8 @@ Returns semesters + courses filtered by the authenticated user's role:
 """
 from fastapi import APIRouter, Depends
 
-from app.data import SEMESTERS
-from app.models import CoursesResponse, Semester, Course
+from app.data import SEMESTERS, USERS
+from app.models import CoursesResponse, Semester, Course, EnrollRequest
 from app.routers.deps import get_current_user
 
 router = APIRouter(prefix="/courses", tags=["courses"])
@@ -44,3 +44,36 @@ def _build_response(user: dict) -> CoursesResponse:
 @router.get("", response_model=CoursesResponse)
 def list_courses(current_user: dict = Depends(get_current_user)):
     return _build_response(current_user)
+
+
+@router.post("/enroll")
+def enroll_in_course(request: EnrollRequest, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "student":
+        from fastapi import HTTPException
+        raise HTTPException(status_code=403, detail="Only students can self-enroll")
+
+    # Find course by access code
+    target_course = None
+    for sem in SEMESTERS:
+        for course in sem["courses"]:
+            if course["access_code"] == request.access_code:
+                target_course = course
+                break
+        if target_course:
+            break
+
+    if not target_course:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="Invalid access code")
+
+    course_id = target_course["course_id"]
+    enrolled_courses = current_user.get("enrolled_courses", [])
+
+    if course_id in enrolled_courses:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=409, detail="Already enrolled in this course")
+
+    enrolled_courses.append(course_id)
+    current_user["enrolled_courses"] = enrolled_courses
+
+    return {"message": f"Successfully enrolled in {target_course['title']} (Section {target_course['section']})"}

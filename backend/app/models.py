@@ -15,6 +15,15 @@ class RegisterRequest(BaseModel):
     role: str  # student | instructor
 
 
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    password: str
+
+
 class UserPublic(BaseModel):
     id: str
     name: str
@@ -48,6 +57,10 @@ class CoursesResponse(BaseModel):
     role: str
     total: int
     semesters: list[Semester]
+
+
+class EnrollRequest(BaseModel):
+    access_code: str
 
 
 # ── Lab / TOC ─────────────────────────────────────────────────

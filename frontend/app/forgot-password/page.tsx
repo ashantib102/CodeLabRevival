@@ -1,22 +1,20 @@
 'use client';
 import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
 import CodeLogo from '@/components/CodeLogo';
-import NotifBanner from '@/components/NotifBanner';
-import { api, setToken, setUser } from '@/lib/api';
+import { api } from '@/lib/api';
 
-export default function LoginPage() {
-  const router = useRouter();
-  const [email, setEmail]       = useState('');
-  const [password, setPassword] = useState('');
+export default function ForgotPasswordPage() {
+  const [email, setEmail] = useState('');
   const [emailErr, setEmailErr] = useState('');
-  const [authErr, setAuthErr]   = useState('');
-  const [loading, setLoading]   = useState(false);
+  const [submitErr, setSubmitErr] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setEmailErr('');
-    setAuthErr('');
+    setSubmitErr('');
+    setSuccess('');
 
     if (!email.trim()) {
       setEmailErr('Please enter your email address');
@@ -25,12 +23,10 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      const res = await api.login(email.trim(), password);
-      setToken(res.access_token);
-      setUser(res.user);
-      router.push('/courses');
+      await api.forgotPassword(email.trim());
+      setSuccess('If an account with that email exists, a password reset link has been sent.');
     } catch (err: unknown) {
-      setAuthErr(err instanceof Error ? err.message : 'Login failed');
+      setSubmitErr(err instanceof Error ? err.message : 'Request failed');
     } finally {
       setLoading(false);
     }
@@ -42,15 +38,19 @@ export default function LoginPage() {
         <CodeLogo />
       </header>
 
-      <NotifBanner />
-
       <main className="login-main">
         <div className="login-card">
-          <h2>CodeLab Sign In</h2>
+          <h2>Forgot Password</h2>
 
-          {authErr && (
+          {submitErr && (
             <p style={{ color: '#c0392b', textAlign: 'center', marginBottom: 12, fontSize: 13 }}>
-              ⚠ {authErr}
+              ⚠ {submitErr}
+            </p>
+          )}
+
+          {success && (
+            <p style={{ color: '#27ae60', textAlign: 'center', marginBottom: 12, fontSize: 13 }}>
+              ✓ {success}
             </p>
           )}
 
@@ -67,23 +67,7 @@ export default function LoginPage() {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="you@example.com"
                 />
-                {emailErr && (
-                  <span className="field-error">⚠ {emailErr}</span>
-                )}
-              </div>
-            </div>
-
-            <div className="login-row">
-              <label htmlFor="password">Password</label>
-              <div className="login-field">
-                <input
-                  id="password"
-                  type="password"
-                  autoComplete="current-password"
-                  className="login-input"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                />
+                {emailErr && <span className="field-error">⚠ {emailErr}</span>}
               </div>
             </div>
 
@@ -94,15 +78,13 @@ export default function LoginPage() {
                 disabled={loading}
                 style={{ minWidth: 130 }}
               >
-                {loading ? '⏳ Signing in…' : '⚙ Login'}
+                {loading ? '⏳ Sending…' : '📧 Send Reset Link'}
               </button>
             </div>
           </form>
 
           <div className="login-links">
-            <a href="/forgot-password">Forgot password?</a><br />
-            Don&apos;t have an account? <a href="/register">Register here</a><br />
-            <a href="/self-enroll">Student Self-Enrollment</a>
+            Remember your password? <a href="/login">Sign in here</a>
           </div>
         </div>
       </main>

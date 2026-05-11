@@ -173,6 +173,24 @@ export const api = {
       body: JSON.stringify({ name, email, password, role }),
     }),
 
+  forgotPassword: (email: string) =>
+    apiFetch<void>("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    }),
+
+  resetPassword: (token: string, password: string) =>
+    apiFetch<void>("/auth/reset-password", {
+      method: "POST",
+      body: JSON.stringify({ token, password }),
+    }),
+
+  enrollInCourse: (accessCode: string) =>
+    apiFetch<{message: string}>("/courses/enroll", {
+      method: "POST",
+      body: JSON.stringify({ access_code: accessCode }),
+    }),
+
   getCourses: () => apiFetch<CoursesResponse>("/courses"),
 
   getLabStructure: (courseId: string) =>
