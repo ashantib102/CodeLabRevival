@@ -1,10 +1,10 @@
 'use client';
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CodeLogo from '@/components/CodeLogo';
 import { api } from '@/lib/api';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -162,5 +162,20 @@ export default function ResetPasswordPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="login-wrap">
+        <header className="login-hdr"><CodeLogo /></header>
+        <main className="login-main">
+          <div className="login-card"><h2>Loading...</h2></div>
+        </main>
+      </div>
+    }>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
