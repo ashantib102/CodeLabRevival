@@ -168,17 +168,17 @@ LAB_STRUCTURES = {
                                 "label": "reference variable declaration",
                                 "children": [],
                                 "exercises": [
-                                    {"id": "20518", "label": "Exercise 20518", "status": "blank"},
+                                    {"id": "20518", "label": "String Reference Variable", "status": "blank"},
                                     {"id": "20516", "label": "reference variable declaration", "status": "blank"},
-                                    {"id": "20517", "label": "Exercise 20517", "status": "blank"},
-                                    {"id": "21055", "label": "Exercise 21055", "status": "blank"},
-                                    {"id": "21051", "label": "Exercise 21051", "status": "blank"},
-                                    {"id": "21079", "label": "Exercise 21079", "status": "blank"},
-                                    {"id": "21063", "label": "Exercise 21063", "status": "blank"},
-                                    {"id": "21067", "label": "Exercise 21067", "status": "blank"},
-                                    {"id": "21075", "label": "Exercise 21075", "status": "blank"},
-                                    {"id": "21071", "label": "Exercise 21071", "status": "blank"},
-                                    {"id": "21059", "label": "Exercise 21059", "status": "blank"},
+                                    {"id": "20517", "label": "Reference Variable from Input", "status": "blank"},
+                                    {"id": "21055", "label": "Null Reference Check", "status": "blank"},
+                                    {"id": "21051", "label": "Reference Aliasing", "status": "blank"},
+                                    {"id": "21079", "label": "Reference Reassignment", "status": "blank"},
+                                    {"id": "21063", "label": "Reference as Method Parameter", "status": "blank"},
+                                    {"id": "21067", "label": "Polymorphic Reference", "status": "blank"},
+                                    {"id": "21075", "label": "Array of Reference Variables", "status": "blank"},
+                                    {"id": "21071", "label": "Reference Returned from Method", "status": "blank"},
+                                    {"id": "21059", "label": "Linked Node Chain", "status": "blank"},
                                 ],
                             },
                             {
@@ -978,222 +978,233 @@ EXERCISES = {
     # ── Additional Intermediate Exercises ──────────────────────
     "20517": {
         "id": "20517",
-        "title": "Object Instantiation",
+        "title": "Reference Variable from Input",
         "instructions": (
-            "<strong>[Intermediate — OOP]</strong> Create a <code>Person</code> class with "
-            "<code>name</code> (String) and <code>age</code> (int) fields.<br><br>"
-            "Add a constructor <code>Person(String name, int age)</code> and a "
-            "<code>toString()</code> method that returns <code>name (age)</code>.<br><br>"
-            "In <code>main</code>, read a name and age from input, create a Person object, "
-            "and print it.<br><br>"
-            "Your class should be named <strong>Person</strong>."
+            "Read a word from standard input. Declare a <code>String</code> "
+            "reference variable named <code>word</code> and assign the input to it.<br><br>"
+            "Print the <strong>length</strong> of <code>word</code> on the first line, "
+            "then print <code>word</code> itself on the second line.<br><br>"
+            "Your class should be named <strong>RefInput</strong>."
         ),
         "sample_runs": [
-            {"input": "Alice\n25", "output": "Alice (25)"},
-            {"input": "Bob\n30", "output": "Bob (30)"},
+            {"input": "hello", "output": "5\nhello"},
+            {"input": "Java", "output": "4\nJava"},
         ],
-        "starter_code": "import java.util.Scanner;\n\npublic class Person {\n    // fields here\n\n    public Person(String name, int age) {\n        // your code here\n    }\n\n    @Override\n    public String toString() {\n        // your code here\n        return \"\";\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
-        "solution_code": (
+        "starter_code": (
             "import java.util.Scanner;\n\n"
-            "public class Person {\n"
-            "    private String name;\n"
-            "    private int age;\n\n"
-            "    public Person(String name, int age) {\n"
-            "        this.name = name;\n"
-            "        this.age = age;\n"
-            "    }\n\n"
-            "    @Override\n"
-            "    public String toString() {\n"
-            "        return name + \" (\" + age + \")\";\n"
-            "    }\n\n"
+            "public class RefInput {\n"
             "    public static void main(String[] args) {\n"
             "        Scanner sc = new Scanner(System.in);\n"
-            "        String name = sc.nextLine();\n"
-            "        int age = sc.nextInt();\n"
-            "        Person p = new Person(name, age);\n"
-            "        System.out.println(p);\n"
+            "        // declare String reference variable 'word' and assign input to it\n\n"
+            "        // print its length, then the word itself\n\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RefInput {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String word = sc.nextLine();\n"
+            "        System.out.println(word.length());\n"
+            "        System.out.println(word);\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     "20518": {
         "id": "20518",
-        "title": "Method Calls on Objects",
+        "title": "String Reference Variable",
         "instructions": (
-            "<strong>[Intermediate — OOP]</strong> Create a <code>Rectangle</code> class with "
-            "<code>width</code> and <code>height</code> (double) fields.<br><br>"
-            "Add methods:<br>"
-            "<ul>"
-            "<li><code>double area()</code> — returns width × height</li>"
-            "<li><code>double perimeter()</code> — returns 2 × (width + height)</li>"
-            "</ul>"
-            "In <code>main</code>, read width and height, create a Rectangle, and print "
-            "area and perimeter (each on separate lines, with 2 decimal places).<br><br>"
-            "Your class should be named <strong>Rectangle</strong>."
+            "Declare a <strong>reference variable</strong> of type <code>String</code> "
+            "named <code>text</code> and assign it the string literal <code>\"Java\"</code>.<br><br>"
+            "Print <code>text</code>.<br><br>"
+            "Your class should be named <strong>StringRef</strong>."
         ),
         "sample_runs": [
-            {"input": "5.0\n3.0", "output": "15.00\n16.00"},
-            {"input": "10.5\n4.2", "output": "44.10\n29.40"},
+            {"input": "", "output": "Java"},
         ],
-        "starter_code": "import java.util.Scanner;\n\npublic class Rectangle {\n    // fields here\n\n    public Rectangle(double width, double height) {\n        // your code here\n    }\n\n    public double area() {\n        // your code here\n        return 0;\n    }\n\n    public double perimeter() {\n        // your code here\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
-        "solution_code": (
-            "import java.util.Scanner;\n\n"
-            "public class Rectangle {\n"
-            "    private double width;\n"
-            "    private double height;\n\n"
-            "    public Rectangle(double width, double height) {\n"
-            "        this.width = width;\n"
-            "        this.height = height;\n"
-            "    }\n\n"
-            "    public double area() {\n"
-            "        return width * height;\n"
-            "    }\n\n"
-            "    public double perimeter() {\n"
-            "        return 2 * (width + height);\n"
-            "    }\n\n"
+        "starter_code": (
+            "public class StringRef {\n"
             "    public static void main(String[] args) {\n"
-            "        Scanner sc = new Scanner(System.in);\n"
-            "        double width = sc.nextDouble();\n"
-            "        double height = sc.nextDouble();\n"
-            "        Rectangle rect = new Rectangle(width, height);\n"
-            "        System.out.printf(\"%.2f\\n%.2f\\n\", rect.area(), rect.perimeter());\n"
+            "        // declare a String reference variable named 'text' and assign \"Java\" to it\n\n"
+            "        System.out.println(text);\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "public class StringRef {\n"
+            "    public static void main(String[] args) {\n"
+            "        String text = \"Java\";\n"
+            "        System.out.println(text);\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     "21051": {
         "id": "21051",
-        "title": "ArrayList Operations",
+        "title": "Reference Aliasing",
         "instructions": (
-            "<strong>[Intermediate — Collections]</strong> Use an <code>ArrayList&lt;Integer&gt;</code> "
-            "to store numbers.<br><br>"
-            "Read an integer <code>n</code>, then read <code>n</code> integers and add them to the list.<br>"
-            "Then read another integer <code>target</code> and print how many times it appears in the list.<br><br>"
-            "Your class should be named <strong>ListOperations</strong>."
+            "Create a <code>StringBuilder</code> object and assign it to a reference variable "
+            "named <code>a</code>. Declare a second reference variable <code>b</code> and assign "
+            "<code>a</code> to it — both now point to the <strong>same</strong> object.<br><br>"
+            "Append <code>\"Hello\"</code> using <code>a</code> and <code>\" World\"</code> using "
+            "<code>b</code>. Print the result using <code>a.toString()</code>.<br><br>"
+            "Your class should be named <strong>RefAlias</strong>."
         ),
         "sample_runs": [
-            {"input": "5\n1\n2\n3\n2\n4\n2", "output": "2"},
-            {"input": "3\n5\n5\n5\n5", "output": "3"},
+            {"input": "", "output": "Hello World"},
         ],
-        "starter_code": "import java.util.ArrayList;\nimport java.util.Scanner;\n\npublic class ListOperations {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        ArrayList<Integer> list = new ArrayList<>();\n        // your code here\n    }\n}\n",
-        "solution_code": (
-            "import java.util.ArrayList;\nimport java.util.Scanner;\n\n"
-            "public class ListOperations {\n"
+        "starter_code": (
+            "public class RefAlias {\n"
             "    public static void main(String[] args) {\n"
-            "        Scanner sc = new Scanner(System.in);\n"
-            "        ArrayList<Integer> list = new ArrayList<>();\n"
-            "        int n = sc.nextInt();\n"
-            "        for (int i = 0; i < n; i++) {\n"
-            "            list.add(sc.nextInt());\n"
-            "        }\n"
-            "        int target = sc.nextInt();\n"
-            "        int count = 0;\n"
-            "        for (int num : list) {\n"
-            "            if (num == target) count++;\n"
-            "        }\n"
-            "        System.out.println(count);\n"
+            "        StringBuilder a = new StringBuilder();\n"
+            "        // declare 'b' and point it to the same object as 'a'\n\n"
+            "        a.append(\"Hello\");\n"
+            "        // append \" World\" using b\n\n"
+            "        System.out.println(a.toString());\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "public class RefAlias {\n"
+            "    public static void main(String[] args) {\n"
+            "        StringBuilder a = new StringBuilder();\n"
+            "        StringBuilder b = a;\n"
+            "        a.append(\"Hello\");\n"
+            "        b.append(\" World\");\n"
+            "        System.out.println(a.toString());\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     # ── Advanced Exercises ─────────────────────────────────────
     "21055": {
         "id": "21055",
-        "title": "Inheritance - Animal Classes",
+        "title": "Null Reference Check",
         "instructions": (
-            "<strong>[Advanced — OOP]</strong> Create an abstract <code>Animal</code> class with:<br>"
-            "<ul><li><code>protected String name</code></li></ul>"
-            "And an abstract method <code>String makeSound()</code>.<br><br>"
-            "Create two subclasses:<br>"
-            "<ul>"
-            "<li><code>Dog</code> — <code>makeSound()</code> returns <code>\"Woof!\"</code></li>"
-            "<li><code>Cat</code> — <code>makeSound()</code> returns <code>\"Meow!\"</code></li>"
-            "</ul>"
-            "In <code>main</code>, read an animal type (<code>dog</code> or <code>cat</code>) and name, "
-            "create the appropriate object, and print <code>name + \" says \" + makeSound()</code>.<br><br>"
-            "Your main class should be named <strong>AnimalSounds</strong>."
+            "Read a line from standard input. Declare a <code>String</code> reference variable "
+            "named <code>ref</code>.<br><br>"
+            "If the input equals <code>\"null\"</code>, assign <code>null</code> to <code>ref</code>; "
+            "otherwise assign the input string to <code>ref</code>.<br><br>"
+            "If <code>ref</code> is <code>null</code>, print <code>\"empty\"</code>. "
+            "Otherwise print <code>ref + \" has length \" + ref.length()</code>.<br><br>"
+            "Your class should be named <strong>NullCheck</strong>."
         ),
         "sample_runs": [
-            {"input": "dog\nBuddy", "output": "Buddy says Woof!"},
-            {"input": "cat\nWhiskers", "output": "Whiskers says Meow!"},
+            {"input": "hello", "output": "hello has length 5"},
+            {"input": "null", "output": "empty"},
+            {"input": "Java", "output": "Java has length 4"},
         ],
-        "starter_code": "import java.util.Scanner;\n\nabstract class Animal {\n    protected String name;\n\n    public Animal(String name) {\n        this.name = name;\n    }\n\n    public abstract String makeSound();\n}\n\nclass Dog extends Animal {\n    // your code here\n}\n\nclass Cat extends Animal {\n    // your code here\n}\n\npublic class AnimalSounds {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
-        "solution_code": (
+        "starter_code": (
             "import java.util.Scanner;\n\n"
-            "abstract class Animal {\n"
-            "    protected String name;\n\n"
-            "    public Animal(String name) {\n"
-            "        this.name = name;\n"
-            "    }\n\n"
-            "    public abstract String makeSound();\n"
-            "}\n\n"
-            "class Dog extends Animal {\n"
-            "    public Dog(String name) { super(name); }\n"
-            "    public String makeSound() { return \"Woof!\"; }\n"
-            "}\n\n"
-            "class Cat extends Animal {\n"
-            "    public Cat(String name) { super(name); }\n"
-            "    public String makeSound() { return \"Meow!\"; }\n"
-            "}\n\n"
-            "public class AnimalSounds {\n"
+            "public class NullCheck {\n"
             "    public static void main(String[] args) {\n"
             "        Scanner sc = new Scanner(System.in);\n"
-            "        String type = sc.nextLine().toLowerCase();\n"
-            "        String name = sc.nextLine();\n"
-            "        Animal animal = type.equals(\"dog\") ? new Dog(name) : new Cat(name);\n"
-            "        System.out.println(name + \" says \" + animal.makeSound());\n"
+            "        String input = sc.nextLine();\n"
+            "        String ref;\n"
+            "        // assign null to ref if input equals \"null\", else assign input\n\n"
+            "        // print \"empty\" if ref is null, else print ref + \" has length \" + ref.length()\n\n"
             "    }\n"
             "}\n"
         ),
-        "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
-    },
-    "21059": {
-        "id": "21059",
-        "title": "Exception Handling",
-        "instructions": (
-            "<strong>[Advanced — Exceptions]</strong> Write a program that reads two integers "
-            "and divides the first by the second.<br><br>"
-            "Handle the following exceptions:<br>"
-            "<ul>"
-            "<li><code>InputMismatchException</code> — print <code>\"Invalid input\"</code></li>"
-            "<li><code>ArithmeticException</code> — print <code>\"Division by zero\"</code></li>"
-            "</ul>"
-            "If successful, print the result as an integer (use integer division).<br><br>"
-            "Your class should be named <strong>SafeDivision</strong>."
-        ),
-        "sample_runs": [
-            {"input": "10\n2", "output": "5"},
-            {"input": "10\n0", "output": "Division by zero"},
-            {"input": "abc\n2", "output": "Invalid input"},
-        ],
-        "starter_code": "import java.util.InputMismatchException;\nimport java.util.Scanner;\n\npublic class SafeDivision {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        try {\n            // your code here\n        } catch (InputMismatchException e) {\n            System.out.println(\"Invalid input\");\n        } catch (ArithmeticException e) {\n            System.out.println(\"Division by zero\");\n        }\n    }\n}\n",
         "solution_code": (
-            "import java.util.InputMismatchException;\nimport java.util.Scanner;\n\n"
-            "public class SafeDivision {\n"
+            "import java.util.Scanner;\n\n"
+            "public class NullCheck {\n"
             "    public static void main(String[] args) {\n"
             "        Scanner sc = new Scanner(System.in);\n"
-            "        try {\n"
-            "            int a = sc.nextInt();\n"
-            "            int b = sc.nextInt();\n"
-            "            int result = a / b;\n"
-            "            System.out.println(result);\n"
-            "        } catch (InputMismatchException e) {\n"
-            "            System.out.println(\"Invalid input\");\n"
-            "        } catch (ArithmeticException e) {\n"
-            "            System.out.println(\"Division by zero\");\n"
+            "        String input = sc.nextLine();\n"
+            "        String ref;\n"
+            "        if (input.equals(\"null\")) {\n"
+            "            ref = null;\n"
+            "        } else {\n"
+            "            ref = input;\n"
+            "        }\n"
+            "        if (ref == null) {\n"
+            "            System.out.println(\"empty\");\n"
+            "        } else {\n"
+            "            System.out.println(ref + \" has length \" + ref.length());\n"
             "        }\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
+    },
+    "21059": {
+        "id": "21059",
+        "title": "Linked Node Chain",
+        "instructions": (
+            "Create a static inner class <code>Node</code> with an <code>int value</code> field "
+            "and a <code>Node next</code> reference variable (initially <code>null</code>).<br><br>"
+            "In <code>main</code>, read an integer <code>n</code>, then read <code>n</code> integers. "
+            "Build a linked chain: each node's <code>next</code> reference points to the next node "
+            "in sequence. Use a <code>head</code> and a <code>tail</code> reference variable to "
+            "build the chain efficiently.<br><br>"
+            "Traverse from <code>head</code> using a <code>current</code> reference variable and "
+            "print each node's value on its own line.<br><br>"
+            "Your class should be named <strong>NodeChain</strong>."
+        ),
+        "sample_runs": [
+            {"input": "3\n10\n20\n30", "output": "10\n20\n30"},
+            {"input": "4\n5\n1\n7\n3", "output": "5\n1\n7\n3"},
+        ],
+        "starter_code": (
+            "import java.util.Scanner;\n\n"
+            "public class NodeChain {\n"
+            "    static class Node {\n"
+            "        int value;\n"
+            "        Node next;\n"
+            "        Node(int value) { this.value = value; this.next = null; }\n"
+            "    }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int n = sc.nextInt();\n"
+            "        // build a chain of n nodes\n"
+            "        // hint: use a 'head' reference and a 'tail' reference\n\n"
+            "        // traverse from head and print each node's value\n\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class NodeChain {\n"
+            "    static class Node {\n"
+            "        int value;\n"
+            "        Node next;\n"
+            "        Node(int value) { this.value = value; this.next = null; }\n"
+            "    }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int n = sc.nextInt();\n"
+            "        Node head = null;\n"
+            "        Node tail = null;\n"
+            "        for (int i = 0; i < n; i++) {\n"
+            "            Node newNode = new Node(sc.nextInt());\n"
+            "            if (head == null) {\n"
+            "                head = newNode;\n"
+            "                tail = newNode;\n"
+            "            } else {\n"
+            "                tail.next = newNode;\n"
+            "                tail = newNode;\n"
+            "            }\n"
+            "        }\n"
+            "        Node current = head;\n"
+            "        while (current != null) {\n"
+            "            System.out.println(current.value);\n"
+            "            current = current.next;\n"
+            "        }\n"
+            "    }\n"
+            "}\n"
+        ),
+        "course_id": "59094",
+        "topic": "reference variable declaration",
     },
     "21056": {
         "id": "21056",
@@ -1271,53 +1282,60 @@ EXERCISES = {
     },
     "21063": {
         "id": "21063",
-        "title": "File I/O - Read and Count Lines",
+        "title": "Reference as Method Parameter",
         "instructions": (
-            "<strong>[Advanced — I/O]</strong> Read a filename from standard input.<br><br>"
-            "Read the file and count:<br>"
-            "<ul><li>Total lines</li><li>Non-empty lines</li><li>Lines containing 'Java'</li></ul>"
-            "Print the three counts on separate lines.<br><br>"
-            "Handle <code>FileNotFoundException</code> by printing <code>\"File not found\"</code>.<br><br>"
-            "Your class should be named <strong>FileAnalyzer</strong>."
+            "Write a static method <code>fill(String[] arr, String value)</code> that assigns "
+            "<code>value</code> to every element of <code>arr</code>.<br><br>"
+            "In <code>main</code>, read an integer <code>n</code> and a string <code>value</code>. "
+            "Create a <code>String[]</code> of size <code>n</code>, call <code>fill</code>, "
+            "then print each element on its own line.<br><br>"
+            "Passing the array reference to the method lets the method modify the original array.<br><br>"
+            "Your class should be named <strong>RefParam</strong>."
         ),
         "sample_runs": [
-            {"input": "test.txt", "output": "5\n4\n2"},
+            {"input": "3\nhello", "output": "hello\nhello\nhello"},
+            {"input": "2\nJava", "output": "Java\nJava"},
         ],
-        "starter_code": "import java.io.File;\nimport java.io.FileNotFoundException;\nimport java.util.Scanner;\n\npublic class FileAnalyzer {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String filename = sc.nextLine();\n        try {\n            // your code here\n        } catch (FileNotFoundException e) {\n            System.out.println(\"File not found\");\n        }\n    }\n}\n",
-        "solution_code": (
-            "import java.io.File;\nimport java.io.FileNotFoundException;\nimport java.util.Scanner;\n\n"
-            "public class FileAnalyzer {\n"
+        "starter_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RefParam {\n"
+            "    static void fill(String[] arr, String value) {\n"
+            "        // assign value to every element of arr\n\n"
+            "    }\n\n"
             "    public static void main(String[] args) {\n"
             "        Scanner sc = new Scanner(System.in);\n"
-            "        String filename = sc.nextLine();\n"
-            "        try {\n"
-            "            File file = new File(filename);\n"
-            "            Scanner fileScanner = new Scanner(file);\n"
-            "            int totalLines = 0;\n"
-            "            int nonEmptyLines = 0;\n"
-            "            int javaLines = 0;\n"
-            "            while (fileScanner.hasNextLine()) {\n"
-            "                String line = fileScanner.nextLine();\n"
-            "                totalLines++;\n"
-            "                if (!line.trim().isEmpty()) {\n"
-            "                    nonEmptyLines++;\n"
-            "                }\n"
-            "                if (line.contains(\"Java\")) {\n"
-            "                    javaLines++;\n"
-            "                }\n"
-            "            }\n"
-            "            fileScanner.close();\n"
-            "            System.out.println(totalLines);\n"
-            "            System.out.println(nonEmptyLines);\n"
-            "            System.out.println(javaLines);\n"
-            "        } catch (FileNotFoundException e) {\n"
-            "            System.out.println(\"File not found\");\n"
+            "        int n = Integer.parseInt(sc.nextLine());\n"
+            "        String value = sc.nextLine();\n"
+            "        String[] arr = new String[n];\n"
+            "        fill(arr, value);\n"
+            "        for (String s : arr) {\n"
+            "            System.out.println(s);\n"
+            "        }\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RefParam {\n"
+            "    static void fill(String[] arr, String value) {\n"
+            "        for (int i = 0; i < arr.length; i++) {\n"
+            "            arr[i] = value;\n"
+            "        }\n"
+            "    }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int n = Integer.parseInt(sc.nextLine());\n"
+            "        String value = sc.nextLine();\n"
+            "        String[] arr = new String[n];\n"
+            "        fill(arr, value);\n"
+            "        for (String s : arr) {\n"
+            "            System.out.println(s);\n"
             "        }\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     "21064": {
         "id": "21064",
@@ -1369,218 +1387,223 @@ EXERCISES = {
     },
     "21067": {
         "id": "21067",
-        "title": "Stack Implementation",
+        "title": "Polymorphic Reference",
         "instructions": (
-            "<strong>[Advanced — Data Structures]</strong> Implement a stack using an array.<br><br>"
-            "Create a <code>MyStack</code> class with:<br>"
-            "<ul><li><code>push(int value)</code></li><li><code>int pop()</code> — returns -1 if empty</li><li><code>int peek()</code> — returns -1 if empty</li></ul>"
-            "Read commands from input: <code>push X</code>, <code>pop</code>, <code>peek</code>.<br><br>"
-            "Print popped/peeked values.<br><br>"
-            "Your main class should be named <strong>StackDemo</strong>."
+            "A reference variable can hold any object of a compatible subtype.<br><br>"
+            "Create a class <code>Shape</code> with a method <code>String describe()</code> "
+            "returning <code>\"I am a Shape\"</code>.<br><br>"
+            "Create a subclass <code>Circle</code> that overrides <code>describe()</code> "
+            "to return <code>\"I am a Circle\"</code>.<br><br>"
+            "In <code>main</code>, declare a <code>Shape</code> reference variable <code>s</code>. "
+            "Read a string: if it equals <code>\"circle\"</code>, assign <code>new Circle()</code> "
+            "to <code>s</code>; otherwise assign <code>new Shape()</code>. Print <code>s.describe()</code>.<br><br>"
+            "Your main class should be named <strong>PolyRef</strong>."
         ),
         "sample_runs": [
-            {"input": "push 5\npush 10\npeek\npop\npop\npop", "output": "10\n10\n5\n-1"},
+            {"input": "circle", "output": "I am a Circle"},
+            {"input": "shape", "output": "I am a Shape"},
         ],
-        "starter_code": "import java.util.Scanner;\n\nclass MyStack {\n    private int[] arr;\n    private int top;\n\n    public MyStack(int capacity) {\n        arr = new int[capacity];\n        top = -1;\n    }\n\n    public void push(int value) {\n        // your code here\n    }\n\n    public int pop() {\n        // your code here\n        return -1;\n    }\n\n    public int peek() {\n        // your code here\n        return -1;\n    }\n}\n\npublic class StackDemo {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        MyStack stack = new MyStack(100);\n        // your code here\n    }\n}\n",
-        "solution_code": (
+        "starter_code": (
             "import java.util.Scanner;\n\n"
-            "class MyStack {\n"
-            "    private int[] arr;\n"
-            "    private int top;\n\n"
-            "    public MyStack(int capacity) {\n"
-            "        arr = new int[capacity];\n"
-            "        top = -1;\n"
-            "    }\n\n"
-            "    public void push(int value) {\n"
-            "        if (top < arr.length - 1) {\n"
-            "            arr[++top] = value;\n"
-            "        }\n"
-            "    }\n\n"
-            "    public int pop() {\n"
-            "        if (top >= 0) {\n"
-            "            return arr[top--];\n"
-            "        }\n"
-            "        return -1;\n"
-            "    }\n\n"
-            "    public int peek() {\n"
-            "        if (top >= 0) {\n"
-            "            return arr[top];\n"
-            "        }\n"
-            "        return -1;\n"
+            "class Shape {\n"
+            "    public String describe() {\n"
+            "        return \"I am a Shape\";\n"
             "    }\n"
             "}\n\n"
-            "public class StackDemo {\n"
+            "class Circle extends Shape {\n"
+            "    // override describe() to return \"I am a Circle\"\n"
+            "}\n\n"
+            "public class PolyRef {\n"
             "    public static void main(String[] args) {\n"
             "        Scanner sc = new Scanner(System.in);\n"
-            "        MyStack stack = new MyStack(100);\n"
-            "        while (sc.hasNextLine()) {\n"
-            "            String line = sc.nextLine().trim();\n"
-            "            if (line.startsWith(\"push\")) {\n"
-            "                int value = Integer.parseInt(line.split(\" \")[1]);\n"
-            "                stack.push(value);\n"
-            "            } else if (line.equals(\"pop\")) {\n"
-            "                int v = stack.pop();\n"
-            "                if (v != -1) System.out.println(v);\n"
-            "            } else if (line.equals(\"peek\")) {\n"
-            "                int v = stack.peek();\n"
-            "                if (v != -1) System.out.println(v);\n"
-            "            }\n"
+            "        String input = sc.nextLine();\n"
+            "        Shape s;\n"
+            "        // assign new Circle() if input is \"circle\", else new Shape()\n\n"
+            "        System.out.println(s.describe());\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "class Shape {\n"
+            "    public String describe() {\n"
+            "        return \"I am a Shape\";\n"
+            "    }\n"
+            "}\n\n"
+            "class Circle extends Shape {\n"
+            "    @Override\n"
+            "    public String describe() {\n"
+            "        return \"I am a Circle\";\n"
+            "    }\n"
+            "}\n\n"
+            "public class PolyRef {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String input = sc.nextLine();\n"
+            "        Shape s;\n"
+            "        if (input.equals(\"circle\")) {\n"
+            "            s = new Circle();\n"
+            "        } else {\n"
+            "            s = new Shape();\n"
             "        }\n"
+            "        System.out.println(s.describe());\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     "21071": {
         "id": "21071",
-        "title": "Interface Implementation",
+        "title": "Reference Returned from Method",
         "instructions": (
-            "<strong>[Advanced — OOP]</strong> Create an interface <code>Shape</code> with:<br>"
-            "<ul><li><code>double area()</code></li><li><code>double perimeter()</code></li></ul>"
-            "Implement it in <code>Circle</code> and <code>Rectangle</code> classes.<br><br>"
-            "In <code>main</code>, read shape type and dimensions, create the object, and print area and perimeter.<br><br>"
-            "Use <code>Math.PI</code> for π.<br><br>"
-            "Your main class should be named <strong>ShapeDemo</strong>."
+            "Write a static method <code>String repeat(String s, int times)</code> that returns "
+            "<code>s</code> concatenated <code>times</code> times.<br><br>"
+            "In <code>main</code>, read a word and an integer <code>times</code>. "
+            "Declare a <code>String</code> reference variable <code>result</code> and assign it "
+            "the return value of <code>repeat(word, times)</code>. Print <code>result</code>.<br><br>"
+            "Your class should be named <strong>RefReturn</strong>."
         ),
         "sample_runs": [
-            {"input": "circle\n5.0", "output": "78.54\n31.42"},
-            {"input": "rectangle\n4.0\n6.0", "output": "24.00\n20.00"},
+            {"input": "ab\n3", "output": "ababab"},
+            {"input": "ha\n4", "output": "hahahaha"},
         ],
-        "starter_code": "import java.util.Scanner;\n\ninterface Shape {\n    double area();\n    double perimeter();\n}\n\nclass Circle implements Shape {\n    private double radius;\n\n    public Circle(double radius) {\n        this.radius = radius;\n    }\n\n    // implement methods\n}\n\nclass Rectangle implements Shape {\n    private double width, height;\n\n    public Rectangle(double width, double height) {\n        this.width = width;\n        this.height = height;\n    }\n\n    // implement methods\n}\n\npublic class ShapeDemo {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
-        "solution_code": (
+        "starter_code": (
             "import java.util.Scanner;\n\n"
-            "interface Shape {\n"
-            "    double area();\n"
-            "    double perimeter();\n"
-            "}\n\n"
-            "class Circle implements Shape {\n"
-            "    private double radius;\n\n"
-            "    public Circle(double radius) {\n"
-            "        this.radius = radius;\n"
+            "public class RefReturn {\n"
+            "    static String repeat(String s, int times) {\n"
+            "        // return s repeated 'times' times\n"
+            "        return \"\";\n"
             "    }\n\n"
-            "    public double area() {\n"
-            "        return Math.PI * radius * radius;\n"
-            "    }\n\n"
-            "    public double perimeter() {\n"
-            "        return 2 * Math.PI * radius;\n"
-            "    }\n"
-            "}\n\n"
-            "class Rectangle implements Shape {\n"
-            "    private double width, height;\n\n"
-            "    public Rectangle(double width, double height) {\n"
-            "        this.width = width;\n"
-            "        this.height = height;\n"
-            "    }\n\n"
-            "    public double area() {\n"
-            "        return width * height;\n"
-            "    }\n\n"
-            "    public double perimeter() {\n"
-            "        return 2 * (width + height);\n"
-            "    }\n"
-            "}\n\n"
-            "public class ShapeDemo {\n"
             "    public static void main(String[] args) {\n"
             "        Scanner sc = new Scanner(System.in);\n"
-            "        String type = sc.nextLine().toLowerCase();\n"
-            "        Shape shape;\n"
-            "        if (type.equals(\"circle\")) {\n"
-            "            double radius = sc.nextDouble();\n"
-            "            shape = new Circle(radius);\n"
-            "        } else {\n"
-            "            double width = sc.nextDouble();\n"
-            "            double height = sc.nextDouble();\n"
-            "            shape = new Rectangle(width, height);\n"
+            "        String s = sc.nextLine();\n"
+            "        int times = Integer.parseInt(sc.nextLine());\n"
+            "        // declare a String reference 'result' and assign it repeat(s, times)\n\n"
+            "        System.out.println(result);\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RefReturn {\n"
+            "    static String repeat(String s, int times) {\n"
+            "        StringBuilder sb = new StringBuilder();\n"
+            "        for (int i = 0; i < times; i++) {\n"
+            "            sb.append(s);\n"
             "        }\n"
-            "        System.out.printf(\"%.2f\\n%.2f\\n\", shape.area(), shape.perimeter());\n"
+            "        return sb.toString();\n"
+            "    }\n\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String s = sc.nextLine();\n"
+            "        int times = Integer.parseInt(sc.nextLine());\n"
+            "        String result = repeat(s, times);\n"
+            "        System.out.println(result);\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     "21075": {
         "id": "21075",
-        "title": "Generic Method",
+        "title": "Array of Reference Variables",
         "instructions": (
-            "<strong>[Advanced — Generics]</strong> Create a generic method <code>printArray</code> "
-            "that prints all elements of any array type.<br><br>"
-            "Read an integer <code>n</code>, then read <code>n</code> strings, then read <code>n</code> integers.<br><br>"
-            "Print the string array, then the integer array using your generic method.<br><br>"
-            "Your class should be named <strong>GenericPrint</strong>."
+            "Declare a <code>String[]</code> array named <code>words</code> — an array of "
+            "reference variables.<br><br>"
+            "Read an integer <code>n</code>, then read <code>n</code> words into the array. "
+            "Reverse the order of the words <strong>in-place</strong> by swapping reference "
+            "variables (do not use any built-in reverse method). Print each word on its own line.<br><br>"
+            "Your class should be named <strong>RefArray</strong>."
         ),
         "sample_runs": [
-            {"input": "3\nhello\nworld\ntest\n1\n2\n3", "output": "hello world test\n1 2 3"},
+            {"input": "3\napple\nbanana\ncherry", "output": "cherry\nbanana\napple"},
+            {"input": "2\nhello\nworld", "output": "world\nhello"},
         ],
-        "starter_code": "import java.util.Scanner;\n\npublic class GenericPrint {\n    public static <T> void printArray(T[] arr) {\n        // your code here\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // your code here\n    }\n}\n",
-        "solution_code": (
+        "starter_code": (
             "import java.util.Scanner;\n\n"
-            "public class GenericPrint {\n"
-            "    public static <T> void printArray(T[] arr) {\n"
-            "        for (int i = 0; i < arr.length; i++) {\n"
-            "            if (i > 0) System.out.print(\" \");\n"
-            "            System.out.print(arr[i]);\n"
-            "        }\n"
-            "        System.out.println();\n"
-            "    }\n\n"
+            "public class RefArray {\n"
             "    public static void main(String[] args) {\n"
             "        Scanner sc = new Scanner(System.in);\n"
-            "        int n = sc.nextInt();\n"
-            "        String[] strings = new String[n];\n"
+            "        int n = Integer.parseInt(sc.nextLine());\n"
+            "        String[] words = new String[n];\n"
             "        for (int i = 0; i < n; i++) {\n"
-            "            strings[i] = sc.next();\n"
+            "            words[i] = sc.nextLine();\n"
             "        }\n"
-            "        Integer[] integers = new Integer[n];\n"
+            "        // reverse the array in-place by swapping references\n\n"
+            "        for (String w : words) {\n"
+            "            System.out.println(w);\n"
+            "        }\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RefArray {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        int n = Integer.parseInt(sc.nextLine());\n"
+            "        String[] words = new String[n];\n"
             "        for (int i = 0; i < n; i++) {\n"
-            "            integers[i] = sc.nextInt();\n"
+            "            words[i] = sc.nextLine();\n"
             "        }\n"
-            "        printArray(strings);\n"
-            "        printArray(integers);\n"
+            "        for (int i = 0, j = n - 1; i < j; i++, j--) {\n"
+            "            String temp = words[i];\n"
+            "            words[i] = words[j];\n"
+            "            words[j] = temp;\n"
+            "        }\n"
+            "        for (String w : words) {\n"
+            "            System.out.println(w);\n"
+            "        }\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     "21079": {
         "id": "21079",
-        "title": "Threading Basics",
+        "title": "Reference Reassignment",
         "instructions": (
-            "<strong>[Advanced — Concurrency]</strong> Create a thread that prints numbers 1-5 with 1-second delays.<br><br>"
-            "Use <code>Thread.sleep(1000)</code> for delays.<br><br>"
-            "Handle <code>InterruptedException</code>.<br><br>"
-            "Print <code>\"Thread finished\"</code> when done.<br><br>"
-            "Your class should be named <strong>SimpleThread</strong>."
+            "Declare a <code>String</code> reference variable <code>s</code> and assign "
+            "<code>\"initial\"</code> to it. Print <code>s</code>.<br><br>"
+            "Read a word from standard input. Reassign <code>s</code> to point to the new word. "
+            "Print <code>s</code> again.<br><br>"
+            "Your class should be named <strong>RefReassign</strong>."
         ),
         "sample_runs": [
-            {"input": "", "output": "1\n2\n3\n4\n5\nThread finished"},
+            {"input": "updated", "output": "initial\nupdated"},
+            {"input": "changed", "output": "initial\nchanged"},
         ],
-        "starter_code": "public class SimpleThread {\n    public static void main(String[] args) {\n        Thread t = new Thread(() -> {\n            // your code here\n        });\n        t.start();\n        try {\n            t.join();\n        } catch (InterruptedException e) {\n            // handle exception\n        }\n    }\n}\n",
-        "solution_code": (
-            "public class SimpleThread {\n"
+        "starter_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RefReassign {\n"
             "    public static void main(String[] args) {\n"
-            "        Thread t = new Thread(() -> {\n"
-            "            try {\n"
-            "                for (int i = 1; i <= 5; i++) {\n"
-            "                    System.out.println(i);\n"
-            "                    Thread.sleep(1000);\n"
-            "                }\n"
-            "                System.out.println(\"Thread finished\");\n"
-            "            } catch (InterruptedException e) {\n"
-            "                System.out.println(\"Thread interrupted\");\n"
-            "            }\n"
-            "        });\n"
-            "        t.start();\n"
-            "        try {\n"
-            "            t.join();\n"
-            "        } catch (InterruptedException e) {\n"
-            "            System.out.println(\"Main thread interrupted\");\n"
-            "        }\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String s = \"initial\";\n"
+            "        System.out.println(s);\n"
+            "        String newValue = sc.nextLine();\n"
+            "        // reassign s to newValue\n\n"
+            "        System.out.println(s);\n"
+            "    }\n"
+            "}\n"
+        ),
+        "solution_code": (
+            "import java.util.Scanner;\n\n"
+            "public class RefReassign {\n"
+            "    public static void main(String[] args) {\n"
+            "        Scanner sc = new Scanner(System.in);\n"
+            "        String s = \"initial\";\n"
+            "        System.out.println(s);\n"
+            "        String newValue = sc.nextLine();\n"
+            "        s = newValue;\n"
+            "        System.out.println(s);\n"
             "    }\n"
             "}\n"
         ),
         "course_id": "59094",
-        "topic": "REFERENCES and OBJECTS",
+        "topic": "reference variable declaration",
     },
     "21080": {
         "id": "21080",
