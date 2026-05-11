@@ -4,9 +4,10 @@ import CodeLogo from './CodeLogo';
 
 interface Props {
   userName: string;
+  userRole?: string;
 }
 
-export default function SiteHeader({ userName }: Props) {
+export default function SiteHeader({ userName, userRole }: Props) {
   const router = useRouter();
 
   function handleLogout() {
@@ -27,6 +28,11 @@ export default function SiteHeader({ userName }: Props) {
       </div>
       <div className="h-right">
         <a href="/courses" className="nav-link" style={{ fontWeight: 600 }}>Courses</a>
+        {userRole === 'instructor' && (
+          <a href="/create-exercise" className="nav-link" style={{ fontWeight: 600, color: '#267a14', marginLeft: 12 }}>
+            + Create Exercise
+          </a>
+        )}
         <button className="hamburger" aria-label="Menu" title="Menu">☰</button>
         <button
           onClick={handleLogout}

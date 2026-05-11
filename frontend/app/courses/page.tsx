@@ -37,7 +37,7 @@ export default function CoursesPage() {
 
   return (
     <div className="page-wrap">
-      <SiteHeader userName={user?.name ?? 'User'} />
+      <SiteHeader userName={user?.name ?? 'User'} userRole={data?.role} />
       <NotifBanner />
 
       <main className="page-body">

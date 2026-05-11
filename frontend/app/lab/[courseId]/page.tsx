@@ -91,7 +91,7 @@ export default function LabPage() {
 
   return (
     <div className="lab-wrap">
-      <LabHeader userName={user?.name ?? 'User'} />
+      <LabHeader userName={user?.name ?? 'User'} userRole={user?.role} />
       <NotifBanner />
 
       <div className="lab-main">

@@ -5,9 +5,10 @@ import CodeLogo from './CodeLogo';
 
 interface Props {
   userName: string;
+  userRole?: string;
 }
 
-export default function LabHeader({ userName }: Props) {
+export default function LabHeader({ userName, userRole }: Props) {
   const router = useRouter();
   const [mode, setMode] = useState('Standard');
 
@@ -29,7 +30,12 @@ export default function LabHeader({ userName }: Props) {
       </div>
       <div className="h-right">
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <a href="/courses" className="nav-link" style={{ fontWeight: 600, fontSize: 13 }}>Lab</a>
+          <a href="/courses" className="nav-link" style={{ fontWeight: 600, fontSize: 13 }}>Courses</a>
+          {userRole === 'instructor' && (
+            <a href="/create-exercise" className="nav-link" style={{ fontWeight: 600, fontSize: 13, color: '#267a14' }}>
+              + Create Exercise
+            </a>
+          )}
           <button className="hamburger" style={{ fontSize: 17 }} aria-label="Menu">☰</button>
           <button
             onClick={handleLogout}
